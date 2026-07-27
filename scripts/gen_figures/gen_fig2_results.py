@@ -13,6 +13,7 @@ from scipy.optimize import curve_fit
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RESULTS = os.path.join(ROOT, 'results')
 FIGURES = os.path.join(ROOT, 'manuscript', 'figures')
+os.makedirs(FIGURES, exist_ok=True)
 CACHE = os.path.join(RESULTS, 'cache')
 CKPT = os.path.join(RESULTS, 'benchmark_v6_checkpoint.json')
 

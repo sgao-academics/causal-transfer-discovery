@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FIGURES = os.path.join(ROOT, 'manuscript', 'figures')
+os.makedirs(FIGURES, exist_ok=True)
 CKPT = os.path.join(ROOT, 'results', 'benchmark_v6_checkpoint.json')
 FULL_EXP = os.path.join(ROOT, 'results', 'full_experiment.json')
 EXT_VAL = os.path.join(ROOT, 'results', 'external_validation.json')
