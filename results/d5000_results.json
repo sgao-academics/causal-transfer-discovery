@@ -1,0 +1,20 @@
+{
+  "d": 5000,
+  "n_source": 9241,
+  "n_target": 1218,
+  "src_corr_threshold": 0.7,
+  "src_weight": 0.3,
+  "source_edges": 15786,
+  "scratch_edges": 715,
+  "warm_edges": 690,
+  "retention_scratch": 200,
+  "retention_warm": 198,
+  "retention_scratch_pct": 1.27,
+  "retention_warm_pct": 1.25,
+  "transfer_gain_pp": -0.01,
+  "warm_scratch_ratio": 0.965,
+  "outer": 20,
+  "inner": 100,
+  "lr": 0.002,
+  "device": "cuda"
+}

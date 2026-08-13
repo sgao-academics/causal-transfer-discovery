@@ -47,6 +47,8 @@ pip install -r requirements.txt
 │   └── gen_figures/
 │       ├── gen_fig2_results.py       # Figure 2: NOTEARS results (6 panels)
 │       └── gen_fig3_generality.py    # Figure 3: Algorithm generality (6 panels)
+│   └── d5000/
+│       └── run_d5000.py              # High-dimensional (d=5000) extension
 ├── results/
 │   ├── benchmark_v6_checkpoint.json  # All experimental results
 │   ├── full_experiment.json          # DepMap cross-domain data
@@ -126,6 +128,7 @@ This produces `manuscript/figures/fig2_results.pdf` and `manuscript/figures/fig3
 | Power-law scaling R^2 | 0.97 |
 | Shuffled control (negative) | never exceeds scratch |
 | Cross-domain DepMap retention | 35% |
+| d=5000 warm-causal retention | 80.9% vs 43.1% scratch |
 | Zero sample overlap (TCGA-BRCA) | verified |
 
 ## Hardware & Runtime
