@@ -51,6 +51,8 @@ LR = 0.002
 LAMBDA1 = 0.01
 W_THRESHOLD = 0.3
 SEED = 42
+SCRATCH_SEEDS = [42, 123, 456]
+SCRATCH_SIGMA = 0.05  # reduced from 0.1: at d=5000 sigma=0.1 gives W^2 row-sum ~50 > float32 matrix_exp bound (~30)
 SRC_CORR_THRESHOLD = 0.7
 SRC_WEIGHT = 0.3
 
@@ -234,13 +236,29 @@ def main():
                "w_threshold": W_THRESHOLD, "device": str(device)}
 
     if run_all or args.scratch:
-        print("\n[scratch] NOTEARS from zero init...")
+        print("\n[scratch] NOTEARS from random init (3 seeds)...")
         torch.cuda.empty_cache()
-        W_scratch, _ = run_notears(X_brca, label="scratch")
-        results["scratch_edges"] = edge_count(W_scratch)
+        scratch_edges = []
+        scratch_Ws = []
+        for seed in SCRATCH_SEEDS:
+            np.random.seed(seed)
+            W_init = (np.random.randn(D * D).astype(np.float32) * SCRATCH_SIGMA).reshape(D, D)
+            W_s, _ = run_notears(X_brca, W_init_np=W_init, label=f"scratch_s{seed}")
+            scratch_edges.append(edge_count(W_s))
+            scratch_Ws.append(W_s)
+        results["scratch_edges_mean"] = round(float(np.mean(scratch_edges)), 1)
+        results["scratch_edges_std"] = round(float(np.std(scratch_edges)), 1)
+        W_scratch = scratch_Ws[0]
     else:
-        W_scratch = np.load(os.path.join(CKPT_DIR, "W_scratch_d5000.npy"))
-        results["scratch_edges"] = edge_count(W_scratch)
+        scratch_edges = []
+        scratch_Ws = []
+        for seed in SCRATCH_SEEDS:
+            W_s = np.load(os.path.join(CKPT_DIR, f"W_scratch_s{seed}_d{D}.npy"))
+            scratch_edges.append(edge_count(W_s))
+            scratch_Ws.append(W_s)
+        results["scratch_edges_mean"] = round(float(np.mean(scratch_edges)), 1)
+        results["scratch_edges_std"] = round(float(np.std(scratch_edges)), 1)
+        W_scratch = scratch_Ws[0]
 
     if run_all or args.warm_correl:
         print("\n[warm-correl] warm-start from correlation source...")
@@ -272,8 +290,9 @@ def main():
         results["causal_source_edges"] = n_src
         results["warm_causal_edges"] = edge_count(W_wc)
         r, total = retention(W_src_causal, W_wc)
-        rs, _ = retention(W_src_causal, W_scratch)
-        results["causal_retention_scratch"] = rs
+        rs_list = [retention(W_src_causal, W_s)[0] for W_s in scratch_Ws]
+        results["causal_retention_scratch_mean"] = round(float(np.mean(rs_list)), 1)
+        results["causal_retention_scratch_pct_mean"] = round(100 * float(np.mean(rs_list)) / total, 1)
         results["causal_retention_warm"] = r
         results["causal_retention_total"] = total
 

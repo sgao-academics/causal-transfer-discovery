@@ -1,0 +1,23 @@
+{
+  "d": 5000,
+  "seeds": [
+    42,
+    123,
+    456
+  ],
+  "init": "N(0, 0.05^2) random (sigma scaled for float32 stability at d=5000)",
+  "source_edges": 634,
+  "seed42_edges": 702,
+  "seed42_retention": 253,
+  "seed42_retention_pct": 39.9,
+  "seed123_edges": 693,
+  "seed123_retention": 241,
+  "seed123_retention_pct": 38.0,
+  "seed456_edges": 714,
+  "seed456_retention": 231,
+  "seed456_retention_pct": 36.4,
+  "scratch_edges_mean": 703.0,
+  "scratch_edges_std": 8.6,
+  "scratch_retention_mean": 38.1,
+  "scratch_retention_std": 1.4
+}

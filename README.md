@@ -125,10 +125,10 @@ This produces `manuscript/figures/fig2_results.pdf` and `manuscript/figures/fig3
 | Warm > Scratch across all configs | 45/45 (100%) |
 | DAGMA edge retention (d>=454) | ~90% |
 | GOLEM edge retention (d=889) | 83.3% |
-| Power-law scaling R^2 | 0.97 |
+| Power-law scaling R^2 | 0.91 |
 | Shuffled control (negative) | never exceeds scratch |
 | Cross-domain DepMap retention | 35% |
-| d=5000 warm-causal retention | 80.9% vs 43.1% scratch |
+| d=5000 warm-causal retention | 80.9% vs 38.1%+/-1.4% scratch (3 seeds) |
 | Zero sample overlap (TCGA-BRCA) | verified |
 
 ## Hardware & Runtime
