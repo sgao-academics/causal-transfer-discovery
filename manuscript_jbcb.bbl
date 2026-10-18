@@ -1,0 +1,195 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{pearl2009causality}
+Pearl J, \emph{Causality: Models, Reasoning, and Inference}, 2nd ed., Cambridge
+  University Press, 2009.
+
+\bibitem{spirtes2000causation}
+Spirtes P, Glymour C, Scheines R, \emph{Causation, Prediction, and Search}, MIT
+  Press, Cambridge, MA, 2000.
+
+\bibitem{zheng2018}
+Zheng X, Aragam B, Ravikumar P, Xing EP, {DAG}s with {NO} {TEARS}: Continuous
+  optimization for structure learning,  \emph{Advances in Neural Information
+  Processing Systems}, 2018.
+
+\bibitem{bello2022}
+Bello K, Aragam B, Ravikumar P, {DAGMA}: Learning {DAG}s via m-matrices and a
+  log-determinant acyclicity characterization, \emph{Advances in Neural
+  Information Processing Systems} \textbf{35}, 2022.
+
+\bibitem{ng2020}
+Ng I, Ghassami A, Zhang K, On the role of sparsity and {DAG} constraints for
+  learning linear {DAG}s, \emph{Advances in Neural Information Processing
+  Systems} \textbf{33}, 2020.
+
+\bibitem{shimizu2006linear}
+Shimizu S, Hoyer PO, Hyvarinen A, Kerminen A, A linear non-{G}aussian acyclic
+  model for causal discovery, \emph{Journal of Machine Learning Research}
+  \textbf{7}:2003--2030, 2006.
+
+\bibitem{kalisch2012causal}
+Kalisch M, Machler M, Colombo D, Maathuis MH, Buhlmann P, Causal inference
+  using graphical models with the {R} package {pcalg}, \emph{Journal of
+  Statistical Software} \textbf{47}(11):1--26, 2012.
+
+\bibitem{devlin2019}
+Devlin J, Chang MW, Lee K, Toutanova K, {BERT}: Pre-training of deep
+  bidirectional transformers for language understanding,  \emph{NAACL-HLT},
+  2019.
+
+\bibitem{dosovitskiy2021}
+Dosovitskiy A, Beyer L, Kolesnikov A, Weissenborn D, Zhai X, Unterthiner T,
+  Dehghani M, Minderer M, Heigold G, Gelly S, Uszkoreit J, Houlsby N, An image
+  is worth 16x16 words: Transformers for image recognition at scale,
+  \emph{ICLR}, 2021.
+
+\bibitem{weiss2016transfer}
+Weiss K, Khoshgoftaar TM, Wang D, A survey of transfer learning, \emph{Journal
+  of Big Data} \textbf{3}(1):9--48, 2016.
+
+\bibitem{zhuang2020transfer}
+Zhuang F, Qi Z, Duan K, Xi D, Zhu Y, Zhu H, Xiong H, He Q, A comprehensive
+  survey on transfer learning, \emph{Proceedings of the IEEE}
+  \textbf{109}(1):43--76, 2020.
+
+\bibitem{theodoris2023transfer}
+Theodoris CV, Xiao L, Chopra A, Chaffin MD, {Al Sayed} ZR, Hill MC, Mantineo H,
+  Brydon EM, Zeng Z, Liu XS, Ellinor PT, Transfer learning enables predictions
+  in network biology, \emph{Nature} \textbf{618}:616--624, 2023.
+
+\bibitem{weinstein2013}
+Weinstein JN, Collisson EA, Mills GB, Shaw KRM, Ozenberger BA, Ellrott K,
+  Shmulevich I, Sander C, Stuart JM, The {Cancer} {Genome} {Atlas} {Pan-Cancer}
+  analysis project, \emph{Nature Genetics} \textbf{45}(10):1113--1120, 2013.
+
+\bibitem{hoadley2018cell}
+Hoadley KA, Yau C, Hinoue T, Wolf DM, Lazar AJ, Drill E, Shen R, Taylor AM,
+  Cherniack AD, Thorsson V, Akbani R, Bowlby R, Wong CK, Wiznerowicz M,
+  {Sanchez-Vega} F, Robertson AG, Schneider BG, Lawrence MS, Noushmehr H, Malta
+  TM, {The Cancer Genome Atlas Network}, Stuart JM, Benz CC, Laird PW,
+  Cell-of-origin patterns dominate the molecular classification of 10,000
+  tumors from 33 types of cancer, \emph{Cell} \textbf{173}(2):291--304, 2018.
+
+\bibitem{liu2018comparative}
+Liu J, Lichtenberg T, Hoadley KA, Poisson LM, Lazar AJ, Cherniack AD, Kovatich
+  AJ, Benz CC, Levine DA, Lee AV, Omberg L, Wolf DM, Shriver CD, Thorsson V, Hu
+  H, An integrated {TCGA} pan-cancer clinical data resource to drive
+  high-quality survival outcome analytics, \emph{Cell}
+  \textbf{173}(2):400--416, 2018.
+
+\bibitem{tsherniak2017}
+Tsherniak A, Vazquez F, Montgomery PG, Weir BA, Kryukov G, Cowley GS, Gill S,
+  Harrington WF, Pantel S, {Krill-Burger} JM, Meyers RM, Ali L, Goodale A, Lee
+  Y, Jiang G, Hsiao R, Geronimo R, Garvey C, Root JD, Hahn WC, Defining a
+  cancer dependency map, \emph{Cell} \textbf{170}(3):564--576, 2017.
+
+\bibitem{tcga2012breast}
+{The Cancer Genome Atlas Network}, Comprehensive molecular portraits of human
+  breast tumours, \emph{Nature} \textbf{490}(7418):61--70, 2012.
+
+\bibitem{brown2025}
+Brown BC, Tokolyi A, Morris JA, Lappalainen T, Knowles DA, Large-scale causal
+  discovery using interventional data sheds light on gene network structure in
+  {K562} cells, \emph{Nature Communications} \textbf{16}:9628, 2025.
+\newblock \doi{10.1038/s41467-025-64353-7}.
+
+\bibitem{wang2021multi}
+Wang Y, Blei DM, The blessings of multiple causes,  \emph{Advances in Neural
+  Information Processing Systems}, 2021.
+
+\bibitem{lee2021cancer}
+Wu J, Zhang Q, Li G, Identification of cancer-related module in
+  protein--protein interaction network based on gene prioritization,
+  \emph{Journal of Bioinformatics and Computational Biology}
+  \textbf{20}(1):2150031, 2022.
+\newblock \doi{10.1142/s0219720021500311}.
+
+\bibitem{sun2022prediction}
+Sun M, She S, Chen H, Cheng J, Ji W, Wang D, Feng C, Prediction model for
+  synergistic anti-tumor multi-compound combinations from traditional {C}hinese
+  medicine based on extreme gradient boosting, targets and gene expression
+  data, \emph{Journal of Bioinformatics and Computational Biology}
+  \textbf{20}(3):2250016, 2022.
+\newblock \doi{10.1142/s0219720022500160}.
+
+\bibitem{relvas2023model}
+Relvas CEM, Nakata A, Chen G, Beer DG, Gotoh N, Fujita A, A model-based
+  clustering algorithm with covariates adjustment and its application to lung
+  cancer stratification, \emph{Journal of Bioinformatics and Computational
+  Biology} \textbf{21}(4):2350019, 2023.
+\newblock \doi{10.1142/s0219720023500191}.
+
+\bibitem{byrd1995limited}
+Byrd RH, Lu P, Nocedal J, Zhu C, A limited memory algorithm for bound
+  constrained optimization, \emph{SIAM Journal on Scientific Computing}
+  \textbf{16}(5):1190--1208, 1995.
+
+\bibitem{nocedal2006numerical}
+Nocedal J, Wright SJ, \emph{Numerical Optimization}, 2nd ed., Springer, 2006.
+
+\bibitem{szklarczyk2023}
+Szklarczyk D, Kirsch R, Koutrouli M, Nastou K, Mehryary F, Hachilif R, Gable
+  AL, Fang T, Doncheva NT, Pyysalo S, Bork P, Jensen LJ, {von Mering} C, The
+  {STRING} database in 2023: protein--protein association networks and
+  functional enrichment analyses for any sequenced genome of interest,
+  \emph{Nucleic Acids Research} \textbf{51}(D1):D638--D646, 2023.
+
+\bibitem{han2018trrust}
+Han H, Cho JW, Lee S, Yun A, Kim H, Bae D, Yang S, Kim CY, Lee M, Kim E, Lee S,
+  Kang B, Jeong D, Kim Y, Jeon HN, Jung H, Nam S, Chung M, Kim JH, Lee I,
+  {TRRUST} v2: an expanded reference database of human and mouse
+  transcriptional regulatory interactions, \emph{Nucleic Acids Research}
+  \textbf{46}(D1):D380--D386, 2018.
+
+\bibitem{kanehisa2023kegg}
+Kanehisa M, Furumichi M, Sato Y, Kawashima M, {Ishiguro-Watanabe} M, {KEGG} for
+  taxonomy-based analysis of pathways and genomes, \emph{Nucleic Acids
+  Research} \textbf{51}(D1):D587--D592, 2023.
+
+\bibitem{newman2005power}
+Newman MEJ, Power laws, {P}areto distributions and {Z}ipf's law,
+  \emph{Contemporary Physics} \textbf{46}(5):323--351, 2005.
+
+\bibitem{kaplan2020scaling}
+Kaplan J, McCandlish S, Henighan T, Brown TB, Chess B, Child R, Gray S, Radford
+  A, Wu J, Amodei D, Scaling laws for neural language models, \emph{arXiv} ,
+  2020, arXiv:2001.08361.
+
+\bibitem{zhan2017wnt}
+Zhan T, Rindtorff N, Boutros M, Wnt signaling in cancer, \emph{Oncogene}
+  \textbf{36}:1461--1473, 2017.
+
+\bibitem{yue2011ecrg4}
+Yue CM, Deng DJ, Bi MX, Guo LP, Lu SH, {ECRG4}, a candidate tumor suppressor
+  gene, is frequently silenced by promoter hypermethylation in multiple human
+  cancers, \emph{International Journal of Cancer} \textbf{129}(3):576--585,
+  2011.
+
+\bibitem{monteith2017calcium}
+Monteith GR, Prevarskaya N, {Roberts-Thomson} SJ, The calcium--cancer
+  signalling nexus, \emph{Nature Reviews Cancer} \textbf{17}:367--380, 2017.
+
+\bibitem{benjamini1995controlling}
+Benjamini Y, Hochberg Y, Controlling the false discovery rate: a practical and
+  powerful approach to multiple testing, \emph{Journal of the Royal Statistical
+  Society: Series B} \textbf{57}(1):289--300, 1995.
+
+\bibitem{subramanian2005gene}
+Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA,
+  Paulovich A, Pomeroy SL, Golub TR, Lander ES, Mesirov JP, Gene set enrichment
+  analysis: a knowledge-based approach for interpreting genome-wide expression
+  profiles, \emph{Proceedings of the National Academy of Sciences}
+  \textbf{102}(43):15545--15550, 2005.
+
+\bibitem{hanahan2011hallmarks}
+Hanahan D, Weinberg RA, Hallmarks of cancer: The next generation, \emph{Cell}
+  \textbf{144}(5):646--674, 2011.
+
+\end{thebibliography}

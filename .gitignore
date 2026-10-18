@@ -1,9 +1,8 @@
-# build artefacts
+# LaTeX build artefacts (manuscript_jbcb.bbl is kept on purpose)
 *.aux
 *.log
 *.out
 *.blg
-*.bbl
 *.fls
 *.fdb_latexmk
 *.synctex.gz
