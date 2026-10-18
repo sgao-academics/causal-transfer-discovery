@@ -1,0 +1,12 @@
+{
+  "genes_mapped": 489,
+  "total_genes": 500,
+  "src_edges_total": 76,
+  "sc_edges_total": 58,
+  "tr_edges_total": 59,
+  "string_src": 1,
+  "string_sc": 1,
+  "string_tr": 2,
+  "src_tr_overlap": 1,
+  "src_sc_overlap": 1
+}

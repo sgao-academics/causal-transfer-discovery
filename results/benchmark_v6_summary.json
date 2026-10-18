@@ -1,0 +1,117 @@
+{
+  "d200": {
+    "scratch": {
+      "mean_retention": 19.9,
+      "std_retention": 4.1,
+      "mean_r": 0.2025,
+      "std_r": 0.0208,
+      "n_seeds": 3
+    },
+    "warm": {
+      "mean_retention": 31.9,
+      "std_retention": 1.6,
+      "mean_r": 0.2738,
+      "std_r": 0.0137,
+      "n_seeds": 3
+    },
+    "shuffled": {
+      "mean_retention": 17.9,
+      "std_retention": 5.3,
+      "mean_r": 0.1977,
+      "std_r": 0.0253,
+      "n_seeds": 3
+    }
+  },
+  "d454": {
+    "scratch": {
+      "mean_retention": 33.4,
+      "std_retention": 1.6,
+      "mean_r": 0.2121,
+      "std_r": 0.0097,
+      "n_seeds": 3
+    },
+    "warm": {
+      "mean_retention": 55.1,
+      "std_retention": 1.4,
+      "mean_r": 0.2978,
+      "std_r": 0.007,
+      "n_seeds": 3
+    },
+    "shuffled": {
+      "mean_retention": 35.6,
+      "std_retention": 3.9,
+      "mean_r": 0.2218,
+      "std_r": 0.0135,
+      "n_seeds": 3
+    }
+  },
+  "d600": {
+    "scratch": {
+      "mean_retention": 33.3,
+      "std_retention": 1.6,
+      "mean_r": 0.1956,
+      "std_r": 0.0036,
+      "n_seeds": 3
+    },
+    "warm": {
+      "mean_retention": 66.6,
+      "std_retention": 3.8,
+      "mean_r": 0.3,
+      "std_r": 0.0098,
+      "n_seeds": 3
+    },
+    "shuffled": {
+      "mean_retention": 32.5,
+      "std_retention": 2.5,
+      "mean_r": 0.1975,
+      "std_r": 0.0021,
+      "n_seeds": 3
+    }
+  },
+  "d750": {
+    "scratch": {
+      "mean_retention": 36.5,
+      "std_retention": 2.2,
+      "mean_r": 0.2158,
+      "std_r": 0.0025,
+      "n_seeds": 3
+    },
+    "warm": {
+      "mean_retention": 66.8,
+      "std_retention": 1.8,
+      "mean_r": 0.3112,
+      "std_r": 0.0018,
+      "n_seeds": 3
+    },
+    "shuffled": {
+      "mean_retention": 36.1,
+      "std_retention": 1.2,
+      "mean_r": 0.2068,
+      "std_r": 0.0067,
+      "n_seeds": 3
+    }
+  },
+  "d889": {
+    "scratch": {
+      "mean_retention": 34.0,
+      "std_retention": 2.7,
+      "mean_r": 0.1944,
+      "std_r": 0.0084,
+      "n_seeds": 3
+    },
+    "warm": {
+      "mean_retention": 68.1,
+      "std_retention": 1.1,
+      "mean_r": 0.31,
+      "std_r": 0.0019,
+      "n_seeds": 3
+    },
+    "shuffled": {
+      "mean_retention": 35.8,
+      "std_retention": 0.5,
+      "mean_r": 0.1972,
+      "std_r": 0.0043,
+      "n_seeds": 3
+    }
+  }
+}

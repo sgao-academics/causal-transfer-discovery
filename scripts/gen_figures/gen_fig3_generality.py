@@ -1,201 +1,223 @@
+# -*- coding: utf-8 -*-
+"""Figure 3 -- algorithm generality, cross-domain transfer and external checks.
+
+Panels
+  (a) DAGMA transfer across five gene-set sizes
+  (b) GOLEM transfer across five gene-set sizes
+  (c) cross-domain DepMap -> BRCA transfer (7 of the 20 source edges recovered)
+  (d) warm-start advantage by algorithm and dimension
+  (e) STRING v12 precision at three combined-score cut-offs
+  (f) KEGG annotation of the top-200 edges
+
+Data come from results/benchmark_v6_checkpoint.json, results/full_experiment.json
+and results/external_validation.json; error bars are sample SDs over the three
+seeds, matching the tables.  Colour encodes the algorithm (NOTEARS = mist,
+DAGMA = moss, GOLEM = violet) and the baseline is always the same muted lilac,
+so no colour carries two meanings inside the figure.  FIG_MONO=1 renders the
+grey ladder used for black-and-white print.
 """
-Fig 3: Algorithm generality + cross-domain transfer + external validation — 2x3 panels.
-(a) DAGMA 5-dim (b) GOLEM 5-dim (c) Cross-domain DepMap
-(d) Multi-algo delta summary (e) STRING validation (f) KEGG enrichment
-"""
-import json, os, numpy as np
-import matplotlib
-matplotlib.use('Agg')
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+import numpy as np
+
 import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-FIGURES = os.path.join(ROOT, 'manuscript', 'figures')
-os.makedirs(FIGURES, exist_ok=True)
-CKPT = os.path.join(ROOT, 'results', 'benchmark_v6_checkpoint.json')
-FULL_EXP = os.path.join(ROOT, 'results', 'full_experiment.json')
-EXT_VAL = os.path.join(ROOT, 'results', 'external_validation.json')
+from housefig import (FRAME, INK, MM, RAMP_SRC, TICK, W, annot, bar, C, dots,
+                      frame, hatch, ink, letters, lollipop, save, to_submission)
+from figstyle import capsule, haloed_text
 
-WARM = '#D62728'; SCRATCH = '#1F77B4'; SHUFFLED = '#7F7F7F'
-DAGMA_C = '#E67E22'; GOLEM_C = '#27AE60'; DM_C = '#9467BD'
-GRID = '#E0E0E0'
-plt.rcParams.update({
-    'font.size': 9, 'axes.titlesize': 10, 'axes.labelsize': 9,
-    'axes.grid': True, 'grid.alpha': 0.3, 'grid.color': GRID,
-    'axes.facecolor': '#FAFAFA', 'figure.facecolor': 'white',
-    'legend.fontsize': 7.5, 'xtick.labelsize': 8, 'ytick.labelsize': 8
-})
+ROOT = os.path.dirname(os.path.dirname(HERE))
+RESULTS = os.path.join(ROOT, "results")
+FIGURES = os.path.join(ROOT, "figures")
 
-# ─── Load data ───
-comp = json.load(open(CKPT, encoding='utf-8'))['completed']
-full = json.load(open(FULL_EXP, encoding='utf-8'))
-ext = json.load(open(EXT_VAL, encoding='utf-8'))
-dims = [200, 454, 600, 750, 889]
+MONO = os.environ.get("FIG_MONO", "0") == "1"
+STEM = "fig3_generality_bw" if MONO else "fig3_generality"
 
-def get_algo_data(algo):
-    """Pull mean+std from checkpoint for a given algorithm."""
-    res = {}
-    for d in dims:
-        res[d] = {}
-        for m in ['scratch', 'warm']:
-            vals = []
-            for s in [42, 123, 456]:
-                k = f'd{d}_s{s}_{algo}_{m}'
-                if k in comp and 'retention_pct' in comp[k]:
-                    vals.append(comp[k])
-            if vals:
-                res[d][m] = {
-                    'mean': np.mean([v['retention_pct'] for v in vals]),
-                    'std': np.std([v['retention_pct'] for v in vals])
-                }
-    return res
+DIMS = [200, 454, 600, 750, 889]
+SEEDS = (42, 123, 456)
 
-dagma_data = get_algo_data('dagma')
-golem_data = get_algo_data('golem')
+comp = json.load(open(os.path.join(RESULTS, "benchmark_v6_checkpoint.json"),
+                      encoding="utf-8"))["completed"]
+full = json.load(open(os.path.join(RESULTS, "full_experiment.json"), encoding="utf-8"))
+ext = json.load(open(os.path.join(RESULTS, "external_validation.json"), encoding="utf-8"))
 
-# NOTEARS from checkpoint (bare keys, no prefix)
-notears_data = {}
-for d in dims:
-    notears_data[d] = {}
-    for m_name in ['scratch', 'warm']:
+
+def arm(algo, which):
+    out = []
+    for d in DIMS:
         vals = []
-        for s in [42, 123, 456]:
-            k = f'd{d}_s{s}_{m_name}'
-            if k in comp and 'retention_pct' in comp[k]:
-                vals.append(comp[k])
-        if vals:
-            notears_data[d][m_name] = {
-                'mean': np.mean([v['retention_pct'] for v in vals]),
-                'std': np.std([v['retention_pct'] for v in vals])
-            }
+        for s in SEEDS:
+            k = ("d%d_s%d_%s_%s" % (d, s, algo, which)) if algo else ("d%d_s%d_%s" % (d, s, which))
+            if k in comp and "retention_pct" in comp[k]:
+                vals.append(comp[k]["retention_pct"])
+        out.append((np.mean(vals), np.std(vals, ddof=1) if len(vals) > 1 else 0.0))
+    return out
 
-# DepMap cross-domain (from full_experiment.json)
-depmap_scr = full['depmap_to_scratch']['overlap']       # 0
-depmap_tcw = full['depmap_to_tcga_warm']['overlap']     # 2
-depmap_dmw = full['depmap_to_dm_warm']['overlap']       # 7
-depmap_src_edges = full['depmap']['edges_03']             # 20
 
-# STRING validation (from external_validation.json)
-string_thresh = ext['string_v12']['thresholds']
-string_methods = ext['string_v12']['methods']
-string_prec = ext['string_v12']['precision_pct']  # shape: [3 thresholds x 4 methods]
+DAG = {w: arm("dagma", w) for w in ("scratch", "warm")}
+GOL = {w: arm("golem", w) for w in ("scratch", "warm")}
 
-# ─── Build figure ───
-fig = plt.figure(figsize=(15, 9))
-x = np.arange(len(dims))
+if MONO:
+    SHADE = [("0.86", None), ("0.62", "///"), ("0.30", None)]
+else:
+    SHADE = [(RAMP_SRC[2], None), (RAMP_SRC[3], None), (RAMP_SRC[5], None)]
 
-# ═══════════ (a) DAGMA 5-dim with error bars ═══════════
-ax = fig.add_subplot(2, 3, 1)
-w = 0.32
-scr_vals_d = [dagma_data[d]['scratch']['mean'] if d in dagma_data and 'scratch' in dagma_data[d] else np.nan for d in dims]
-warm_vals_d = [dagma_data[d]['warm']['mean'] if d in dagma_data and 'warm' in dagma_data[d] else np.nan for d in dims]
-scr_std_d = [dagma_data[d]['scratch']['std'] if d in dagma_data and 'scratch' in dagma_data[d] else 0 for d in dims]
-warm_std_d = [dagma_data[d]['warm']['std'] if d in dagma_data and 'warm' in dagma_data[d] else 0 for d in dims]
+fig = plt.figure(figsize=(W, 84 * MM))
+gs = gridspec.GridSpec(3, 2, figure=fig, height_ratios=[0.95, 0.95, 1.14],
+                       left=0.128, right=0.986, top=0.930, bottom=0.105,
+                       wspace=0.46, hspace=0.80)
 
-ax.bar(x - w/2, scr_vals_d, w, color=SCRATCH, alpha=0.85, label='Scratch',
-       yerr=scr_std_d, error_kw={'capsize': 3, 'linewidth': 0.8, 'ecolor': '#555'})
-bars_d = ax.bar(x + w/2, warm_vals_d, w, color=DAGMA_C, alpha=0.85, label='Warm-start',
-                yerr=warm_std_d, error_kw={'capsize': 3, 'linewidth': 0.8, 'ecolor': '#555'})
-for b, v in zip(bars_d, warm_vals_d):
-    if not np.isnan(v):
-        ax.text(b.get_x() + b.get_width()/2, b.get_height() + 2.0, f'{v:.0f}',
-                ha='center', fontsize=7, fontweight='bold', color=DAGMA_C)
-ax.set_xticks(x); ax.set_xticklabels([f'$d={d}$' for d in dims]); ax.set_ylim(0, 108)
-ax.set_ylabel('Retention (%)'); ax.set_title('(a) DAGMA Transfer Results', fontweight='bold')
-ax.legend(framealpha=0.9, fontsize=7)
+# ═══════════════════════════════════════════════════ (a) DAGMA  (b) GOLEM
+panels = {}
+for pos, data, role, lab in ((gs[0, 0], DAG, "dagma", "DAGMA"),
+                             (gs[0, 1], GOL, "golem", "GOLEM")):
+    ax = fig.add_subplot(pos)
+    panels[lab] = ax
+    frame(ax)
+    x = np.arange(len(DIMS))
+    bw = 0.36
+    for off, arm_name, rl in ((-bw / 2 - 0.01, "scratch", "scratch"),
+                              (bw / 2 + 0.01, "warm", role)):
+        mu = np.array([v[0] for v in data[arm_name]])
+        sd = np.array([v[1] for v in data[arm_name]])
+        for i in range(len(DIMS)):
+            bar(ax, x[i] + off, mu[i], bw, rl)
+        ax.errorbar(x + off, mu, yerr=sd, fmt="none", ecolor="0.45" if MONO else "0.62",
+                    elinewidth=0.8, capsize=2.2, capthick=0.8, zorder=5)
+        if arm_name == "warm":
+            # In the grey ladder the fill is mid-grey, so a value label painted in
+            # the fill colour fades into the bar top; black keeps it legible.
+            vcol = ink() if MONO else C(rl)
+            for i in range(len(DIMS)):
+                ax.text(x[i] + off, mu[i] + sd[i] + 2.4, "%.0f" % mu[i], ha="center",
+                        fontsize=7.5, color=vcol)
+    ax.set_xticks(x)
+    ax.set_xticklabels([str(d) for d in DIMS], fontsize=7.5)
+    ax.set_xlabel("Gene-set size $d$")
+    ax.set_ylim(0, 112)
+    ax.set_xlim(-0.6, len(DIMS) - 0.4)
+    ax.set_ylabel("Retention (%%)\n%s" % lab)
+    # the algorithm name rides on the axis label: at 41 mm of panel width a
+    # corner tag lands on the last value label, and a three-word legend does
+    # not fit at all
+    ax.plot([], [], "s", color=C("scratch"), ms=5, ls="none", label="Scratch")
+    ax.plot([], [], "s", color=C(role), ms=5, ls="none", label="Warm")
+    ax.legend(loc="lower left", bbox_to_anchor=(0.0, 1.008), frameon=False,
+              fontsize=7, handletextpad=0.3, borderpad=0.0, ncol=2,
+              columnspacing=0.9, labelcolor=ink())
 
-# ═══════════ (b) GOLEM 5-dim with error bars ═══════════
-ax2 = fig.add_subplot(2, 3, 2)
-scr_vals_g = [golem_data[d]['scratch']['mean'] if d in golem_data and 'scratch' in golem_data[d] else np.nan for d in dims]
-warm_vals_g = [golem_data[d]['warm']['mean'] if d in golem_data and 'warm' in golem_data[d] else np.nan for d in dims]
-scr_std_g = [golem_data[d]['scratch']['std'] if d in golem_data and 'scratch' in golem_data[d] else 0 for d in dims]
-warm_std_g = [golem_data[d]['warm']['std'] if d in golem_data and 'warm' in golem_data[d] else 0 for d in dims]
+# ══════════════════════════════════════════ (c) cross-domain DepMap -> BRCA
+axc = fig.add_subplot(gs[1, 0])
+frame(axc)
+dep_src = full["depmap"]["edges_03"]
+rows = [("Scratch", full["depmap_to_scratch"]["overlap"], "scratch"),
+        ("TCGA\nwarm", full["depmap_to_tcga_warm"]["overlap"], "tcga"),
+        ("DepMap\nwarm", full["depmap_to_dm_warm"]["overlap"], "depmap")]
+xc = np.arange(len(rows))
+for i, (name, v, rl) in enumerate(rows):
+    axc.add_patch(plt.Rectangle((xc[i] - 0.26, 0), 0.52, dep_src,
+                                fc="#EFF3F8" if not MONO else "0.92", ec="none", zorder=1))
+    axc.add_patch(plt.Rectangle((xc[i] - 0.26, 0), 0.52, v, fc=C(rl), ec="none",
+                                hatch=hatch(rl), zorder=3))
+    axc.text(xc[i], v + 1.0, "%d / %d" % (v, dep_src), ha="center", fontsize=7.5,
+             color=ink(), zorder=6)
+axc.set_xticks(xc)
+axc.set_xticklabels([r[0] for r in rows], fontsize=7.5)
+axc.set_xlim(-0.6, len(rows) - 0.4)
+axc.set_ylim(0, dep_src * 1.20)
+axc.set_ylabel("Edges recovered\n(of %d)" % dep_src)
 
-ax2.bar(x - w/2, scr_vals_g, w, color=SCRATCH, alpha=0.85, label='Scratch',
-        yerr=scr_std_g, error_kw={'capsize': 3, 'linewidth': 0.8, 'ecolor': '#555'})
-bars_g = ax2.bar(x + w/2, warm_vals_g, w, color=GOLEM_C, alpha=0.85, label='Warm-start',
-                 yerr=warm_std_g, error_kw={'capsize': 3, 'linewidth': 0.8, 'ecolor': '#555'})
-for b, v in zip(bars_g, warm_vals_g):
-    if not np.isnan(v):
-        ax2.text(b.get_x() + b.get_width()/2, b.get_height() + 2.0, f'{v:.0f}',
-                ha='center', fontsize=7, fontweight='bold', color=GOLEM_C)
-ax2.set_xticks(x); ax2.set_xticklabels([f'$d={d}$' for d in dims]); ax2.set_ylim(0, 108)
-ax2.set_ylabel('Retention (%)'); ax2.set_title('(b) GOLEM Transfer Results', fontweight='bold')
-ax2.legend(framealpha=0.9, fontsize=7)
+# ══════════════════════════════════════════ (d) advantage by algorithm
+axd = fig.add_subplot(gs[1, 1])
+frame(axd)
+xd = np.arange(len(DIMS))
+series = [("NOTEARS", "notears", arm("", "scratch"), arm("", "warm")),
+          ("DAGMA", "dagma", DAG["scratch"], DAG["warm"]),
+          ("GOLEM", "golem", GOL["scratch"], GOL["warm"])]
+# NOTEARS 0.28 and GOLEM 0.44 are only 0.16 apart in the grey ladder, which is
+# too close once the dots shrink to print size -- shape is the second encoding.
+MARK = {"notears": "o", "dagma": "s", "golem": "D"}
 
-# ═══════════ (c) Cross-domain DepMap → loaded from full_experiment.json ═══════════
-ax3 = fig.add_subplot(2, 3, 3)
-methods_c = ['Scratch', 'TCGA-warm', 'DepMap-\nwarm']
-vals_c = [depmap_scr, depmap_tcw, depmap_dmw]
-colors_c = [SCRATCH, WARM, DM_C]
-bars3 = ax3.bar(methods_c, vals_c, color=colors_c, alpha=0.85, width=0.5)
-for b, v in zip(bars3, vals_c):
-    ax3.text(b.get_x() + b.get_width()/2, b.get_height() + 0.3, str(v),
-             ha='center', fontweight='bold', fontsize=13, color='#333')
-ax3.set_ylabel(f'Overlap with DepMap Source\n({depmap_src_edges} source edges, $d=454$)')
-ax3.set_title('(c) Cross-Domain: DepMap $\\to$ BRCA', fontweight='bold')
-ax3.set_ylim(0, max(vals_c) * 1.4)
 
-# ═══════════ (d) Multi-algo delta summary ═══════════
-ax4 = fig.add_subplot(2, 3, 4)
-w4 = 0.22
-delta_nt = [notears_data[d]['warm']['mean'] - notears_data[d]['scratch']['mean']
-            if d in notears_data and 'warm' in notears_data[d] else 0 for d in dims]
-delta_dg = [dagma_data[d]['warm']['mean'] - dagma_data[d]['scratch']['mean']
-            if d in dagma_data and 'warm' in dagma_data[d] else 0 for d in dims]
-delta_gl = [golem_data[d]['warm']['mean'] - golem_data[d]['scratch']['mean']
-            if d in golem_data and 'warm' in golem_data[d] else 0 for d in dims]
+def mk(role):
+    return MARK[role] if MONO else "o"
 
-ax4.bar(x - w4, delta_nt, w4, color=WARM, alpha=0.85, label='NOTEARS')
-ax4.bar(x, delta_dg, w4, color=DAGMA_C, alpha=0.85, label='DAGMA')
-ax4.bar(x + w4, delta_gl, w4, color=GOLEM_C, alpha=0.85, label='GOLEM')
-ax4.set_xticks(x); ax4.set_xticklabels([f'$d={d}$' for d in dims])
-ax4.set_ylabel('$\\Delta$ Retention (pp)')
-ax4.set_title('(d) Warm-Start Advantage by Algorithm', fontweight='bold')
-ax4.legend(framealpha=0.9, ncol=3, fontsize=7)
-ax4.axhline(y=0, color='gray', lw=0.5, alpha=0.3)
 
-# ═══════════ (e) STRING validation → loaded from external_validation.json ═══════════
-ax5 = fig.add_subplot(2, 3, 5)
-x5 = np.arange(len(string_methods)); w5 = 0.22
-colors_st = ['#3498DB', '#F39C12', '#E74C3C']
-labels_st = [f'score $\\geq {t}$' for t in string_thresh]
+for j, (lab, role, scr, wrm) in enumerate(series):
+    off = (j - 1) * 0.20
+    for i in range(len(DIMS)):
+        lollipop(axd, xd[i] + off, wrm[i][0] - scr[i][0], role, marker=mk(role))
+axd.axhline(0, color="0.55" if MONO else FRAME, lw=0.9, zorder=1)
+axd.set_xticks(xd)
+axd.set_xticklabels([str(d) for d in DIMS], fontsize=7.5)
+axd.set_xlabel("Gene-set size $d$")
+axd.set_xlim(-0.6, len(DIMS) - 0.4)
+axd.set_ylim(0, 92)
+axd.set_ylabel("$\\Delta$ retention (pp)")
+for lab, role, _, _ in series:
+    axd.plot([], [], marker=mk(role), color=C(role), ms=4.2, ls="none", label=lab)
+# At 7 pt the three names ran 107 pt inside a 113 pt panel and the final "M"
+# crossed the right spine (x1 = 324.0 vs 319.2); 6.5 pt with tighter handles
+# brings it back inside without dropping a series from the key.
+axd.legend(loc="upper left", frameon=False, fontsize=7, handletextpad=0.50,
+           borderpad=0.02, ncol=3, columnspacing=0.16, handlelength=0.3,
+           labelcolor=ink())
 
-for i in range(3):
-    offset = (i - 1) * w5
-    ax5.bar(x5 + offset, string_prec[i], w5, color=colors_st[i], alpha=0.85, label=labels_st[i])
+# ══════════════════════════════════════════════════ (e) STRING precision
+axe = fig.add_subplot(gs[2, 0])
+frame(axe)
+methods = ext["string_v12"]["methods"]
+prec = ext["string_v12"]["precision_pct"]
+thr = ext["string_v12"]["thresholds"]
+xe = np.arange(len(methods))
+w3 = 0.24
+for k in range(len(thr)):
+    off = (k - 1) * w3
+    col, ht = SHADE[k]
+    for i in range(len(methods)):
+        axe.add_patch(plt.Rectangle((xe[i] + off - w3 / 2, 0), w3, prec[k][i],
+                                    fc=col, ec="white" if MONO else "none",
+                                    hatch=ht, lw=0.6 if MONO else 0, zorder=3))
+axe.set_xticks(xe)
+axe.set_xticklabels(["TCGA\nsource", "Scratch", "TCGA\nwarm", "DepMap\nwarm"], fontsize=7)
+axe.set_ylabel("Precision (%)\nby STRING score")
+axe.set_ylim(0, 7.4)
+for k, t in enumerate(thr):
+    col, ht = SHADE[k]
+    axe.bar([0], [0], color=col, hatch=ht, label="$\\geq$%d" % t,
+            edgecolor="white" if MONO else "none")
+axe.legend(loc="upper left", frameon=False, fontsize=7, ncol=3,
+           handlelength=0.9, columnspacing=0.7, borderpad=0.05,
+           handletextpad=0.3, labelcolor=ink())
 
-ax5.set_xticks(x5); ax5.set_xticklabels(string_methods, fontsize=7.5)
-ax5.set_ylabel('STRING Precision (%)'); ax5.set_ylim(0, 6.5)
-ax5.set_title('(e) STRING v12 Validation', fontweight='bold')
-ax5.legend(framealpha=0.9, fontsize=6.5, ncol=3, loc='upper right')
 
-# ═══════════ (f) KEGG enrichment ═══════════
-ax6 = fig.add_subplot(2, 3, 6)
-ax6.axis('off')
-kegg_text = (
-    'KEGG Pathway Enrichment ($d=454$, top-200 edges)\n'
-    '\n'
-    'Scratch & DepMap-warm:\n'
-    '  Chemokine signaling (hsa04062)\n'
-    '  FDR = 0.036 | 7 genes\n'
-    '  CCL13, CCL11, CCL19, XCR1,\n'
-    '  XCL1, VAV3, CCL3L3\n'
-    '\n'
-    'TCGA source & TCGA-warm:\n'
-    '  No significant enrichment\n'
-    '  (FDR < 0.05)\n'
-    '\n'
-    'Chemokine signaling mediates tumor-\n'
-    'immune microenvironment interactions\n'
-    'across cancer types \u2014 a conserved\n'
-    'biological signal detectable by both\n'
-    'scratch and transfer-learned graphs.'
-)
-ax6.text(0.05, 0.95, kegg_text, transform=ax6.transAxes, fontsize=8,
-        va='top', linespacing=1.6,
-        bbox=dict(boxstyle='round,pad=0.5', facecolor='#F5F7FA', edgecolor='#BDC3C7', alpha=0.9))
+# ══════════════════════════════════════════════════════ (f) KEGG summary
+axf = fig.add_subplot(gs[2, 1])
+axf.axis("off")
+axf.set_xlim(0, 1)
+axf.set_ylim(0, 1)
+axf.text(0.02, 0.985, "Chemokine signalling", transform=axf.transAxes,
+         va="top", ha="left", fontsize=8, color=ink(), fontweight="bold")
+axf.text(0.02, 0.845,
+         "hsa04062 \u00b7 FDR 0.036\n"
+         "enriched in scratch and\n"
+         "DepMap-warm only\n"
+         "CCL13  CCL11  CCL19\n"
+         "XCR1  XCL1  VAV3  CCL3L3",
+         transform=axf.transAxes, va="top", ha="left", fontsize=7, color=ink(),
+         linespacing=1.62)
 
-plt.tight_layout(pad=1.5)
-fig.savefig(os.path.join(FIGURES, 'fig3_generality.pdf'), dpi=300, bbox_inches='tight')
-fig.savefig(os.path.join(FIGURES, 'fig3_generality.png'), dpi=300, bbox_inches='tight')
-print(f'Fig 3 saved: {os.path.join(FIGURES, "fig3_generality.pdf")}')
+letters(fig, ((panels["DAGMA"], "a"), (panels["GOLEM"], "b"), (axc, "c"),
+              (axd, "d"), (axe, "e"), (axf, "f")))
+pdf = save(fig, FIGURES, STEM)
+print("   DAGMA d454 %.1f/%.1f  GOLEM d454 %.1f/%.1f"
+      % (DAG["scratch"][1][0], DAG["warm"][1][0], GOL["scratch"][1][0], GOL["warm"][1][0]))
+print("   depmap %d/%d/%d of %d" % (rows[0][1], rows[1][1], rows[2][1], dep_src))
+if "--submit" in sys.argv:
+    to_submission(pdf, os.path.join(FIGURES, "submission"), STEM)

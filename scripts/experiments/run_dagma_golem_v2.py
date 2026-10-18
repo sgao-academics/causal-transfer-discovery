@@ -1,3 +1,12 @@
+# --- paths resolved relative to this file (replication package) ---
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+PKG_ROOT = _HERE
+for _ in range(2):
+    PKG_ROOT = _os.path.dirname(PKG_ROOT)
+PKG_RESULTS = _os.path.join(PKG_ROOT, "results")
+DATA_DIR = _os.environ.get("TCGA_DATA_DIR", _os.path.join(PKG_ROOT, "data"))
+# -------------------------------------------------------------------
 """
 DAGMA + GOLEM d=454/600/750/889 benchmark (d=200 already done in checkpoint).
 Race-condition fix: reload checkpoint before each save.
@@ -6,10 +15,10 @@ import os, json, time, sys, numpy as np, pandas as pd, torch
 from scipy.optimize import minimize
 from scipy.stats import pearsonr, median_abs_deviation
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = PKG_ROOT
 CACHE_DIR = os.path.join(ROOT, 'results', 'cache')
 CHECKPOINT_FILE = os.path.join(ROOT, 'results', 'benchmark_v6_checkpoint.json')
-TCGA_DIR = os.environ.get('TCGA_DATA_DIR', os.path.join(ROOT, 'data'))
+TCGA_DIR = DATA_DIR
 os.makedirs(CACHE_DIR, exist_ok=True)
 DEVICE = 'cuda'
 

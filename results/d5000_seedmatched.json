@@ -1,0 +1,54 @@
+{
+  "protocol": "seed-matched: each seed's own random-init source graph",
+  "tau": 0.3,
+  "seeds": [
+    42,
+    123,
+    456
+  ],
+  "per_seed": [
+    {
+      "seed": 42,
+      "src": 619,
+      "warm_edges": 856,
+      "scr_edges": 702,
+      "warm_kept": 505,
+      "warm_pct": 81.58319870759289,
+      "scr_kept": 299,
+      "scr_pct": 48.30371567043619,
+      "r": 0.35505343675695955
+    },
+    {
+      "seed": 123,
+      "src": 626,
+      "warm_edges": 833,
+      "scr_edges": 693,
+      "warm_kept": 510,
+      "warm_pct": 81.46964856230032,
+      "scr_kept": 290,
+      "scr_pct": 46.325878594249204,
+      "r": 0.35646094353266755
+    },
+    {
+      "seed": 456,
+      "src": 627,
+      "warm_edges": 838,
+      "scr_edges": 714,
+      "warm_kept": 516,
+      "warm_pct": 82.29665071770334,
+      "scr_kept": 260,
+      "scr_pct": 41.46730462519936,
+      "r": 0.3581543323816435
+    }
+  ],
+  "source_edges_mean": 624.0,
+  "warm_pct_mean": 81.78,
+  "warm_pct_std": 0.37,
+  "scratch_pct_mean": 45.37,
+  "scratch_pct_std": 2.87,
+  "gain_pp": 36.42,
+  "warm_edges_mean": 842.3,
+  "warm_edges_std": 9.9,
+  "scratch_edges_mean": 703.0,
+  "scratch_edges_std": 8.6
+}

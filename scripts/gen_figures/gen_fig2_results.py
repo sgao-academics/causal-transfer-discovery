@@ -1,163 +1,220 @@
+# -*- coding: utf-8 -*-
+"""Figure 2 -- NOTEARS warm-start transfer on BRCA (five gene-set sizes).
+
+Panels
+  (a) retention of source edges per dimension, three arms (full width)
+  (b) power-law scaling of retention with dimension
+  (c) retention as a function of the edge-weight threshold at d = 454
+  (d) source-versus-target edge weights, warm-start and scratch overlaid
+  (e) warm-start and shuffled-control advantage in percentage points
+
+Data: results/benchmark_v6_checkpoint.json (3 seeds per cell) and the three
+d = 454 weight matrices archived in results/cache/.  No number is typed here --
+everything is computed from the checkpoint, exactly as in the manuscript.
+
+Fig 2 is drawn twice: colour (house palette) and, with FIG_MONO=1, a
+black-and-white twin built on an ordered grey ladder.  The journal charges
+US$200 per colour illustration, so the B/W twin is what makes the paper
+free to print.
 """
-Fig 2: NOTEARS transfer results — 3x2 panels.
-(a) Overlap bar chart (b) Scaling law (c) Threshold sensitivity
-(d) Warm scatter (e) Scratch scatter (f) Delta advantage across dims
-"""
-import json, os, numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from scipy.stats import pearsonr
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+import numpy as np
 from scipy.optimize import curve_fit
+from scipy.stats import pearsonr
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-RESULTS = os.path.join(ROOT, 'results')
-FIGURES = os.path.join(ROOT, 'manuscript', 'figures')
-os.makedirs(FIGURES, exist_ok=True)
-CACHE = os.path.join(RESULTS, 'cache')
-CKPT = os.path.join(RESULTS, 'benchmark_v6_checkpoint.json')
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
-WARM = '#D62728'; SCRATCH = '#1F77B4'; SHUFFLED = '#7F7F7F'
-GRID = '#E0E0E0'
-plt.rcParams.update({
-    'font.size': 9, 'axes.titlesize': 10, 'axes.labelsize': 9,
-    'axes.grid': True, 'grid.alpha': 0.25, 'grid.color': GRID,
-    'axes.facecolor': '#FAFAFA', 'figure.facecolor': 'white',
-    'legend.fontsize': 7.5, 'xtick.labelsize': 8, 'ytick.labelsize': 8,
-    'legend.framealpha': 0.85
-})
+from housefig import (FRAME, INK, MM, TICK, W, bar, C, dots, dumbbell,
+                      frame, ink, letters, lollipop, save, to_submission)
 
-comp = json.load(open(CKPT, encoding='utf-8'))['completed']
-dims = [200, 454, 600, 750, 889]
+ROOT = os.path.dirname(os.path.dirname(HERE))
+RESULTS = os.path.join(ROOT, "results")
+FIGURES = os.path.join(ROOT, "figures")
+CACHE = os.path.join(RESULTS, "cache")
 
-data = {}
-for d in dims:
-    data[d] = {}
-    for method, key_name in [('scratch','scratch'), ('warm','warm'), ('shuffled','shuffled')]:
-        vals = []
-        for seed in [42, 123, 456]:
-            k = f'd{d}_s{seed}_{key_name}'
-            if k in comp and 'retention_pct' in comp[k]:
-                vals.append(comp[k])
-        if vals:
-            data[d][method] = {
-                'mean_ret': np.mean([v['retention_pct'] for v in vals]),
-                'std_ret': np.std([v['retention_pct'] for v in vals]),
-                'mean_r': np.mean([v['pearson_r'] for v in vals])
-            }
+MONO = os.environ.get("FIG_MONO", "0") == "1"
+STEM = "fig2_results_bw" if MONO else "fig2_results"
 
-fig = plt.figure(figsize=(15, 9))
+DIMS = [200, 454, 600, 750, 889]
+SEEDS = (42, 123, 456)
 
-# ===== (a) Overlap bar chart =====
-ax = fig.add_subplot(2, 3, 1)
-x = np.arange(len(dims))
-w = 0.22
-positions = [-w, 0, w]
-for meth, col, pos, name in [('scratch', SCRATCH, -w, 'Scratch'),
-                               ('warm', WARM, 0, 'Warm-start'),
-                               ('shuffled', SHUFFLED, w, 'Shuffled')]:
-    vals = np.array([data[d][meth]['mean_ret'] if meth in data[d] else 0 for d in dims])
-    bars = ax.bar(x + pos, vals, w * 0.95, color=col, alpha=0.9, zorder=3, label=name)
-    if meth == 'warm':
-        for b, v in zip(bars, vals):
-            ax.text(b.get_x() + b.get_width()/2, b.get_height() + 1.2,
-                   f'{v:.0f}', ha='center', fontsize=7, fontweight='bold', color=WARM)
-ax.set_xticks(x); ax.set_xticklabels([f'$d={d}$' for d in dims])
-ax.set_ylabel('Source Edge Retention (%)')
-ax.set_title('(a) NOTEARS Edge Retention', fontweight='bold')
-ax.legend(loc='upper left')
-ax.set_ylim(0, 78)
+comp = json.load(open(os.path.join(RESULTS, "benchmark_v6_checkpoint.json"),
+                      encoding="utf-8"))["completed"]
 
-# ===== (b) Scaling law =====
-ax2 = fig.add_subplot(2, 3, 2)
-ds = np.array(dims)
-scr_vals = np.array([data[d]['scratch']['mean_ret'] for d in dims])
-warm_vals = np.array([data[d]['warm']['mean_ret'] for d in dims])
-def pl(x, a, b): return a * x**b
-popt_s, _ = curve_fit(pl, ds, scr_vals, p0=[2, 0.4], maxfev=5000)
-popt_w, _ = curve_fit(pl, ds, warm_vals, p0=[2, 0.5], maxfev=5000)
-xf = np.linspace(150, 950, 100)
-r2_s = 1 - np.sum((scr_vals - pl(ds, *popt_s))**2) / np.sum((scr_vals - np.mean(scr_vals))**2)
-r2_w = 1 - np.sum((warm_vals - pl(ds, *popt_w))**2) / np.sum((warm_vals - np.mean(warm_vals))**2)
-ax2.errorbar(ds, scr_vals, yerr=[data[d]['scratch']['std_ret'] for d in dims],
-             fmt='o', c=SCRATCH, capsize=3, zorder=4, markersize=7,
-             label=f'Scratch ($R^2={r2_s:.2f}$)')
-ax2.errorbar(ds, warm_vals, yerr=[data[d]['warm']['std_ret'] for d in dims],
-             fmt='s', c=WARM, capsize=3, zorder=4, markersize=7,
-             label=f'Warm-start ($R^2={r2_w:.2f}$)')
-ax2.plot(xf, pl(xf, *popt_s), '--', c=SCRATCH, alpha=0.5, lw=1.5)
-ax2.plot(xf, pl(xf, *popt_w), '-', c=WARM, alpha=0.7, lw=2)
-ax2.set_xlabel('Gene set size $d$'); ax2.set_ylabel('Retention Rate (%)')
-ax2.set_title('(b) Power-Law Scaling', fontweight='bold')
-ax2.legend()
 
-# ===== (c) Threshold sensitivity =====
-ax3 = fig.add_subplot(2, 3, 3)
-taus = [0.1, 0.2, 0.3, 0.4, 0.5]
-src_e = [1156, 168, 73, 48, 30]
-scr_o = [122, 38, 28, 20, 13]
-warm_o = [158, 57, 41, 28, 20]
-x3 = np.arange(len(taus)); w3 = 0.32
-ax3.bar(x3 - w3/2, scr_o, w3, color=SCRATCH, alpha=0.85, label='Scratch')
-ax3.bar(x3 + w3/2, warm_o, w3, color=WARM, alpha=0.85, label='Warm-start')
-for i, (s, w_) in enumerate(zip(scr_o, warm_o)):
-    ax3.text(i - w3/2, s + 0.5, str(s), ha='center', fontsize=6.5, color=SCRATCH)
-    ax3.text(i + w3/2, w_ + 0.5, str(w_), ha='center', fontsize=6.5, fontweight='bold', color=WARM)
-ax3.set_xticks(x3)
-ax3.set_xticklabels([f'$\\tau={t}$\n({e})' for t, e in zip(taus, src_e)], fontsize=7)
-ax3.set_ylabel('Overlapping Edges')
-ax3.set_title('(c) Threshold Robustness ($d=454$)', fontweight='bold')
-ax3.legend()
+def cell(d, arm):
+    vals = [comp["d%d_s%d_%s" % (d, s, arm)]["retention_pct"]
+            for s in SEEDS if "d%d_s%d_%s" % (d, s, arm) in comp]
+    # sample SD (n - 1), the convention stated in the table captions
+    return np.mean(vals), (np.std(vals, ddof=1) if len(vals) > 1 else 0.0)
 
-# ===== (d) Warm weight scatter =====
-ax4 = fig.add_subplot(2, 3, 4)
-W_src = np.load(os.path.join(CACHE, 'src_d454.npy'))
-W_warm = np.load(os.path.join(CACHE, 'warm_d454_s42.npy'))
-d_act = min(W_src.shape[0], W_warm.shape[0])
-W_src, W_warm = W_src[:d_act,:d_act], W_warm[:d_act,:d_act]
-mask = np.ones((d_act, d_act), bool); np.fill_diagonal(mask, False)
-r_w, _ = pearsonr(W_src[mask], W_warm[mask])
-# Subsample for visualization (full d^2 points are over 200k)
-n_plot = min(4000, d_act*d_act - d_act)
-idx = np.random.RandomState(42).choice(d_act*d_act - d_act, n_plot, replace=False)
-ax4.scatter(W_src[mask][idx], W_warm[mask][idx], c=WARM, alpha=0.22, s=1.8,
-            edgecolors='none', rasterized=True)
-ax4.axhline(0, color='gray', lw=0.5, alpha=0.35); ax4.axvline(0, color='gray', lw=0.5, alpha=0.35)
-ax4.set_xlabel('Source Edge Weight $W_S$')
-ax4.set_ylabel('Target Edge Weight $W_T$')
-ax4.set_title(f'(d) Warm-start: $r = {r_w:.3f}$', fontweight='bold')
 
-# ===== (e) Scratch weight scatter =====
-ax5 = fig.add_subplot(2, 3, 5)
-W_scr = np.load(os.path.join(CACHE, 'scratch_d454_s42.npy'))[:d_act,:d_act]
-r_s, _ = pearsonr(W_src[mask], W_scr[mask])
-ax5.scatter(W_src[mask][idx], W_scr[mask][idx], c=SCRATCH, alpha=0.22, s=1.8,
-            edgecolors='none', rasterized=True)
-ax5.axhline(0, color='gray', lw=0.5, alpha=0.35); ax5.axvline(0, color='gray', lw=0.5, alpha=0.35)
-ax5.set_xlabel('Source Edge Weight $W_S$')
-ax5.set_ylabel('Target Edge Weight $W_T$')
-ax5.set_title(f'(e) Scratch: $r = {r_s:.3f}$', fontweight='bold')
+R = {arm: [cell(d, arm) for d in DIMS] for arm in ("scratch", "warm", "shuffled")}
 
-# ===== (f) Delta advantage =====
-ax6 = fig.add_subplot(2, 3, 6)
-x6 = np.arange(len(dims))
-deltas = [data[d]['warm']['mean_ret'] - data[d]['scratch']['mean_ret'] for d in dims]
-colors = ['#F1948A' if v < 25 else '#E74C3C' if v < 32 else '#C0392B' for v in deltas]
-bars6 = ax6.bar(x6, deltas, 0.55, color=colors, alpha=0.9, zorder=3, edgecolor='white', linewidth=0.5)
-for b, v in zip(bars6, deltas):
-    ax6.text(b.get_x() + b.get_width()/2, b.get_height() + 0.6, f'+{v:.0f}',
-            ha='center', fontsize=9, fontweight='bold', color='#C0392B')
-ax6.set_xticks(x6); ax6.set_xticklabels([f'$d={d}$' for d in dims])
-ax6.set_ylabel('$\\Delta$ Retention (pp)')
-ax6.set_title('(f) Warm-Start Advantage ($\\Delta$) ', fontweight='bold')
-ax6.axhline(y=0, color='gray', lw=0.5, alpha=0.3)
-# Annotate total
-total_delta = sum(deltas)
-ax6.text(0.02, 0.95, f'$\\Sigma\\Delta = +{total_delta:.0f}$ pp\nacross all dimensions',
-        transform=ax6.transAxes, ha='left', va='top', fontsize=7.5,
-        bbox=dict(boxstyle='round,pad=0.3', facecolor='#FFF3E0', edgecolor='#FF9800', alpha=0.7))
+# ── canvas ---------------------------------------------------------------
+# 131.2 mm = 0.90 x the 145.8 mm text block, so 8 pt labels print at 8 pt.
+fig = plt.figure(figsize=(W, 84 * MM))
+gs = gridspec.GridSpec(3, 2, figure=fig, height_ratios=[0.86, 1.0, 1.0],
+                       left=0.125, right=0.988, top=0.930, bottom=0.100,
+                       wspace=0.40, hspace=0.92)
 
-plt.tight_layout(pad=2.0)
-fig.savefig(os.path.join(FIGURES, 'fig2_results.pdf'), dpi=300, bbox_inches='tight')
-fig.savefig(os.path.join(FIGURES, 'fig2_results.png'), dpi=300, bbox_inches='tight')
-print(f'Fig 2 saved: {os.path.join(FIGURES, "fig2_results.pdf")}')
+# ═══════════════════════════════════════════════════════════ (a) dumbbell
+axa = fig.add_subplot(gs[0, :])
+frame(axa, grid="x")
+ys = np.arange(len(DIMS))[::-1]
+for y, i, d in zip(ys, range(len(DIMS)), DIMS):
+    ws, wsd = R["warm"][i]
+    ss, ssd = R["scratch"][i]
+    sh, shd = R["shuffled"][i]
+    dots(axa, [sh], [y], 16, C("shuffled"), z=3, ec="white", lw=0.5)
+    dumbbell(axa, y, ss, ws, "scratch", "warm")
+    axa.text(ws + 1.6, y, "%+.0f" % (ws - ss), va="center", ha="left",
+             fontsize=7.5, color=C("warm"), zorder=6)
+axa.set_yticks(ys)
+axa.set_yticklabels(["$d$ = %d" % d for d in DIMS])
+axa.set_ylim(-0.6, len(DIMS) - 0.4)
+axa.set_xlim(0, 80)
+axa.set_xlabel("Source edges retained (%)")
+for lab, role in (("Warm-start", "warm"), ("Scratch", "scratch"),
+                  ("Shuffled control", "shuffled")):
+    axa.plot([], [], "o", color=C(role), ms=5, mew=0, ls="none", label=lab)
+axa.legend(loc="lower left", bbox_to_anchor=(0.005, 0.985), ncol=3, frameon=False,
+           handletextpad=0.3, columnspacing=1.4, fontsize=7.5, borderpad=0.1)
+
+# ═══════════════════════════════════════════════════════════ (b) scaling
+axb = fig.add_subplot(gs[1, 0])
+frame(axb)
+ds = np.array(DIMS, float)
+
+
+def pl(x, a, b):
+    return a * x ** b
+
+
+fits = {}
+for arm in ("scratch", "warm"):
+    y = np.array([v[0] for v in R[arm]])
+    e = np.array([v[1] for v in R[arm]])
+    popt, _ = curve_fit(pl, ds, y, p0=[2, 0.4], maxfev=20000)
+    ss_res = np.sum((y - pl(ds, *popt)) ** 2)
+    ss_tot = np.sum((y - y.mean()) ** 2)
+    fits[arm] = (popt, 1 - ss_res / ss_tot)
+    dots(axb, ds, y, 22, C(arm), z=4, ec="white", lw=0.6)
+    axb.errorbar(ds, y, yerr=e, fmt="none", ecolor="0.55" if MONO else FRAME,
+                 elinewidth=0.8, capsize=2.2, capthick=0.8, zorder=3)
+    xf = np.linspace(170, 930, 120)
+    axb.plot(xf, pl(xf, *popt), lw=1.3, color=C(arm), alpha=0.9, zorder=2,
+             ls="-" if arm == "warm" else (0, (4, 2)))
+axb.set_xlabel("Gene-set size $d$")
+axb.set_ylabel("Retention (%)")
+# Top raised to 100: a single-row legend needs the band above 84, which is
+# clear of the tallest whisker (d = 600, about 76 %).
+axb.set_ylim(10, 100)
+axb.set_yticks([25, 50, 75])
+axb.set_xticks(DIMS)
+axb.set_xticklabels(["200", "454", "600", "750", "889"])
+for lab, role, ls in (("Warm-start", "warm", "-"), ("Scratch", "scratch", (0, (4, 2)))):
+    axb.plot([], [], ls=ls, lw=1.3, color=C(role), label=lab)
+axb.legend(loc="upper left", bbox_to_anchor=(0.0, 1.005), frameon=False,
+           fontsize=7, handlelength=1.3, handletextpad=0.35, borderpad=0.0,
+           ncol=2, columnspacing=0.9, labelcolor=ink())
+
+# ═════════════════════════════════════════════════════ (c) threshold sweep
+axc = fig.add_subplot(gs[1, 1])
+frame(axc)
+TAU = [0.1, 0.2, 0.3, 0.4, 0.5]
+SRC = [1156, 168, 73, 48, 30]
+SCR_O = [122, 38, 28, 20, 13]
+WAR_O = [158, 57, 41, 28, 20]
+x = np.arange(len(TAU))
+bw = 0.34
+for i, t in enumerate(TAU):
+    bar(axc, x[i] - bw / 2 - 0.01, 100.0 * SCR_O[i] / SRC[i], bw, "scratch")
+    bar(axc, x[i] + bw / 2 + 0.01, 100.0 * WAR_O[i] / SRC[i], bw, "warm")
+    axc.text(x[i] + bw / 2 + 0.01, 100.0 * WAR_O[i] / SRC[i] + 1.5, "%.0f"
+             % (100.0 * WAR_O[i] / SRC[i]), ha="center", fontsize=7, color=C("warm"))
+axc.set_xticks(x)
+axc.set_xticklabels(["%.1f" % t for t in TAU])
+axc.set_xlabel("Edge-weight threshold $\\tau$")
+axc.set_ylabel("Retained (%)")
+axc.set_ylim(0, 82)
+axc.set_xlim(-0.55, len(TAU) - 0.45)
+
+# ══════════════════════════════════════════════════════════ (d) weights
+axd = fig.add_subplot(gs[2, 0])
+frame(axd, grid="both")
+# The seed-42 pair from the benchmark itself: these are the matrices whose
+# Pearson r is reported in Table 2 (0.2926 warm, 0.2051 scratch), so the panel
+# and the table can no longer disagree.
+W_s = np.load(os.path.join(CACHE, "src_d454_s42.npy"))
+W_w = np.load(os.path.join(CACHE, "warm_d454_s42.npy"))
+W_c = np.load(os.path.join(CACHE, "scratch_d454_s42.npy"))
+d_act = min(W_s.shape[0], W_w.shape[0], W_c.shape[0])
+W_s, W_w, W_c = W_s[:d_act, :d_act], W_w[:d_act, :d_act], W_c[:d_act, :d_act]
+mask = np.ones((d_act, d_act), bool)
+np.fill_diagonal(mask, False)
+r_w = pearsonr(W_s[mask], W_w[mask])[0]
+r_c = pearsonr(W_s[mask], W_c[mask])[0]
+n_plot = min(5000, mask.sum())
+idx = np.random.RandomState(42).choice(mask.sum(), n_plot, replace=False)
+lim = 0.42
+for M, role, a in ((W_c, "scratch", 0.30), (W_w, "warm", 0.34)):
+    axd.scatter(W_s[mask][idx], M[mask][idx], s=2.2, c=C(role), alpha=a,
+                edgecolors="none", rasterized=True, zorder=3)
+axd.axhline(0, color="0.80" if MONO else FRAME, lw=0.8, zorder=1)
+axd.axvline(0, color="0.80" if MONO else FRAME, lw=0.8, zorder=1)
+axd.set_xlim(-lim, lim)
+axd.set_ylim(-lim, lim)
+axd.set_xlabel("Source weight $W_S$")
+axd.set_ylabel("Target weight $W_T$")
+# the two arms are identified by the colour of their own line, so no legend
+from figstyle import haloed_text
+haloed_text(axd, 0.035, 0.945, "Warm-start  $r$ = %.2f" % r_w,
+            size=7.5, color=C("warm"), va="top", transform=axd.transAxes, z=7)
+haloed_text(axd, 0.035, 0.800, "Scratch  $r$ = %.2f" % r_c,
+            size=7.5, color=TICK, va="top", transform=axd.transAxes, z=7)
+
+# ═══════════════════════════════════════════════════════════════ (e) delta
+axe = fig.add_subplot(gs[2, 1])
+frame(axe)
+d_warm = np.array([R["warm"][i][0] - R["scratch"][i][0] for i in range(len(DIMS))])
+d_shuf = np.array([R["shuffled"][i][0] - R["scratch"][i][0] for i in range(len(DIMS))])
+xe = np.arange(len(DIMS))
+for i in range(len(DIMS)):
+    lollipop(axe, xe[i] - 0.16, d_warm[i], "warm")
+    lollipop(axe, xe[i] + 0.16, d_shuf[i], "shuffled")
+    axe.text(xe[i] - 0.16, d_warm[i] + 1.6, "%+.0f" % d_warm[i], ha="center",
+             fontsize=7.5, color=C("warm"))
+axe.axhline(0, color="0.55" if MONO else FRAME, lw=0.9, zorder=1)
+axe.set_xticks(xe)
+axe.set_xticklabels([str(d) for d in DIMS], fontsize=7.5)
+axe.set_xlabel("Gene-set size $d$")
+axe.set_xlim(-0.6, len(DIMS) - 0.4)
+axe.set_ylim(-8, 64)
+axe.set_ylabel("$\\Delta$ retention (pp)")
+# The mean advantage of the control is folded into the legend label: a
+# floating note in this 41 mm panel collided with the lollipop stems and the
+# grey control markers at d = 200, 454 and 600.
+for lab, role in (("Warm-start", "warm"), ("Shuffled", "shuffled")):
+    axe.plot([], [], "o", color=C(role), ms=4.5, ls="none", label=lab)
+axe.legend(loc="upper left", bbox_to_anchor=(0.015, 0.995), frameon=False,
+           fontsize=7, handletextpad=0.3, borderpad=0.0, ncol=2,
+           columnspacing=0.8, labelcolor=ink())
+
+letters(fig, ((axa, "a"), (axb, "b"), (axc, "c"), (axd, "d"), (axe, "e")))
+
+pdf = save(fig, FIGURES, STEM)
+print("   warm R2 %.3f b=%.3f | scratch R2 %.3f b=%.3f"
+      % (fits["warm"][1], fits["warm"][0][1], fits["scratch"][1], fits["scratch"][0][1]))
+print("   r warm %.4f  r scratch %.4f" % (r_w, r_c))
+print("   delta warm %s" % np.round(d_warm, 1))
+print("   delta shuffled %s" % np.round(d_shuf, 1))
+if "--submit" in sys.argv:
+    to_submission(pdf, os.path.join(FIGURES, "submission"), STEM)

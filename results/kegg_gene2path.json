@@ -1,0 +1,674 @@
+{
+ "ADH1C": {
+  "entrez": "126",
+  "pathways": [
+   "hsa00010",
+   "hsa00071",
+   "hsa00350",
+   "hsa00620",
+   "hsa00830",
+   "hsa00980",
+   "hsa00982",
+   "hsa01100",
+   "hsa04936"
+  ]
+ },
+ "ANXA8": {
+  "entrez": "728113",
+  "pathways": []
+ },
+ "ARSE": {
+  "entrez": "57412",
+  "pathways": [
+   "hsa05208"
+  ]
+ },
+ "ATP2C2": {
+  "entrez": "9914",
+  "pathways": []
+ },
+ "AZGP1": {
+  "entrez": "563",
+  "pathways": []
+ },
+ "B3GNT3": {
+  "entrez": "10331",
+  "pathways": [
+   "hsa00512",
+   "hsa00601",
+   "hsa01100"
+  ]
+ },
+ "BBOX1": {
+  "entrez": "8424",
+  "pathways": [
+   "hsa00310",
+   "hsa01100"
+  ]
+ },
+ "BMP7": {
+  "entrez": "655",
+  "pathways": [
+   "hsa04060",
+   "hsa04350",
+   "hsa04360",
+   "hsa04390"
+  ]
+ },
+ "C19orf33": {
+  "entrez": "64073",
+  "pathways": []
+ },
+ "C20orf151": {
+  "entrez": "140893",
+  "pathways": []
+ },
+ "C2orf40": {
+  "entrez": "84417",
+  "pathways": []
+ },
+ "C2orf72": {
+  "entrez": "257407",
+  "pathways": []
+ },
+ "C8orf47": {
+  "entrez": "203111",
+  "pathways": []
+ },
+ "CAPN13": {
+  "entrez": "92291",
+  "pathways": []
+ },
+ "CAPN6": {
+  "entrez": "827",
+  "pathways": []
+ },
+ "CDO1": {
+  "entrez": "1036",
+  "pathways": [
+   "hsa00270",
+   "hsa00430",
+   "hsa01100"
+  ]
+ },
+ "CEACAM6": {
+  "entrez": "4680",
+  "pathways": []
+ },
+ "CHL1": {
+  "entrez": "7391",
+  "pathways": []
+ },
+ "CLDN3": {
+  "entrez": "1365",
+  "pathways": [
+   "hsa03272",
+   "hsa04382",
+   "hsa04514",
+   "hsa04530",
+   "hsa04670",
+   "hsa05130",
+   "hsa05160"
+  ]
+ },
+ "COL10A1": {
+  "entrez": "1300",
+  "pathways": [
+   "hsa04974"
+  ]
+ },
+ "COL11A1": {
+  "entrez": "1301",
+  "pathways": [
+   "hsa04820",
+   "hsa04974"
+  ]
+ },
+ "CST6": {
+  "entrez": "1474",
+  "pathways": []
+ },
+ "CXCL17": {
+  "entrez": "284340",
+  "pathways": [
+   "hsa04060"
+  ]
+ },
+ "CYP4F3": {
+  "entrez": "4051",
+  "pathways": [
+   "hsa00590",
+   "hsa01100"
+  ]
+ },
+ "DPP4": {
+  "entrez": "1803",
+  "pathways": [
+   "hsa03272",
+   "hsa04974"
+  ]
+ },
+ "EMX2OS": {
+  "entrez": "196047",
+  "pathways": []
+ },
+ "FAM83E": {
+  "entrez": "54854",
+  "pathways": []
+ },
+ "FOLR1": {
+  "entrez": "2348",
+  "pathways": [
+   "hsa01523",
+   "hsa04144",
+   "hsa04981",
+   "hsa05215"
+  ]
+ },
+ "FUT6": {
+  "entrez": "2528",
+  "pathways": [
+   "hsa00601",
+   "hsa01100"
+  ]
+ },
+ "GABRB3": {
+  "entrez": "2562",
+  "pathways": [
+   "hsa04080",
+   "hsa04082",
+   "hsa04519",
+   "hsa04723",
+   "hsa04726",
+   "hsa04727",
+   "hsa05032",
+   "hsa05033"
+  ]
+ },
+ "GJB1": {
+  "entrez": "2705",
+  "pathways": []
+ },
+ "GLDC": {
+  "entrez": "2731",
+  "pathways": [
+   "hsa00260",
+   "hsa00630",
+   "hsa00670",
+   "hsa00785",
+   "hsa01100",
+   "hsa01200"
+  ]
+ },
+ "GPR115": {
+  "entrez": "221393",
+  "pathways": []
+ },
+ "GPX2": {
+  "entrez": "2877",
+  "pathways": [
+   "hsa00480",
+   "hsa01100",
+   "hsa04918",
+   "hsa05014",
+   "hsa05016",
+   "hsa05022"
+  ]
+ },
+ "GREM1": {
+  "entrez": "26585",
+  "pathways": [
+   "hsa04350"
+  ]
+ },
+ "GSTA1": {
+  "entrez": "2938",
+  "pathways": [
+   "hsa00480",
+   "hsa00980",
+   "hsa00982",
+   "hsa00983",
+   "hsa01100",
+   "hsa01524",
+   "hsa05200",
+   "hsa05204",
+   "hsa05207",
+   "hsa05208",
+   "hsa05225",
+   "hsa05418"
+  ]
+ },
+ "HAND2": {
+  "entrez": "9464",
+  "pathways": []
+ },
+ "HES2": {
+  "entrez": "54626",
+  "pathways": [
+   "hsa05165"
+  ]
+ },
+ "HKDC1": {
+  "entrez": "80201",
+  "pathways": [
+   "hsa00010",
+   "hsa00051",
+   "hsa00052",
+   "hsa00500",
+   "hsa00520",
+   "hsa00524",
+   "hsa01100",
+   "hsa01200",
+   "hsa01250",
+   "hsa04066",
+   "hsa04910",
+   "hsa04930",
+   "hsa04973",
+   "hsa05131",
+   "hsa05230"
+  ]
+ },
+ "HMGA2": {
+  "entrez": "8091",
+  "pathways": [
+   "hsa05202",
+   "hsa05206"
+  ]
+ },
+ "HNF1B": {
+  "entrez": "6928",
+  "pathways": [
+   "hsa04950"
+  ]
+ },
+ "HOXA11": {
+  "entrez": "3207",
+  "pathways": [
+   "hsa05202"
+  ]
+ },
+ "HOXA9": {
+  "entrez": "100534589",
+  "pathways": []
+ },
+ "HOXB13": {
+  "entrez": "360205",
+  "pathways": []
+ },
+ "HS6ST2": {
+  "entrez": "90161",
+  "pathways": [
+   "hsa00534"
+  ]
+ },
+ "IRX2": {
+  "entrez": "153572",
+  "pathways": []
+ },
+ "KCNJ15": {
+  "entrez": "3772",
+  "pathways": [
+   "hsa04971"
+  ]
+ },
+ "KLK6": {
+  "entrez": "3816",
+  "pathways": [
+   "hsa04614",
+   "hsa04961"
+  ]
+ },
+ "KRT16": {
+  "entrez": "3868",
+  "pathways": [
+   "hsa04382",
+   "hsa04519",
+   "hsa04915",
+   "hsa05150"
+  ]
+ },
+ "KRT17": {
+  "entrez": "3872",
+  "pathways": [
+   "hsa04382",
+   "hsa04519",
+   "hsa04915",
+   "hsa05150"
+  ]
+ },
+ "KRT19": {
+  "entrez": "3880",
+  "pathways": [
+   "hsa04382",
+   "hsa04519",
+   "hsa04915",
+   "hsa05150"
+  ]
+ },
+ "KRT6A": {
+  "entrez": "3853",
+  "pathways": [
+   "hsa04382",
+   "hsa04519"
+  ]
+ },
+ "KRT6B": {
+  "entrez": "3854",
+  "pathways": [
+   "hsa04382",
+   "hsa04519"
+  ]
+ },
+ "KRT7": {
+  "entrez": "3855",
+  "pathways": [
+   "hsa04382",
+   "hsa04519"
+  ]
+ },
+ "LGI3": {
+  "entrez": "203190",
+  "pathways": []
+ },
+ "LIPH": {
+  "entrez": "200879",
+  "pathways": []
+ },
+ "LONRF2": {
+  "entrez": "164832",
+  "pathways": []
+ },
+ "LPPR1": {
+  "entrez": "54886",
+  "pathways": []
+ },
+ "LRRN1": {
+  "entrez": "57633",
+  "pathways": []
+ },
+ "MAL": {
+  "entrez": "124904706",
+  "pathways": [
+   "hsa03040"
+  ]
+ },
+ "METTL7B": {
+  "entrez": "196410",
+  "pathways": []
+ },
+ "MSI1": {
+  "entrez": "4440",
+  "pathways": [
+   "hsa03015"
+  ]
+ },
+ "MST1R": {
+  "entrez": "4486",
+  "pathways": [
+   "hsa04020"
+  ]
+ },
+ "MUC1": {
+  "entrez": "4582",
+  "pathways": []
+ },
+ "MUC16": {
+  "entrez": "94025",
+  "pathways": []
+ },
+ "ODZ1": {
+  "entrez": "10178",
+  "pathways": []
+ },
+ "PCSK1N": {
+  "entrez": "27344",
+  "pathways": []
+ },
+ "PCSK9": {
+  "entrez": "255738",
+  "pathways": [
+   "hsa04979"
+  ]
+ },
+ "PDZK1IP1": {
+  "entrez": "10158",
+  "pathways": []
+ },
+ "PKP1": {
+  "entrez": "5317",
+  "pathways": [
+   "hsa04382",
+   "hsa04519"
+  ]
+ },
+ "PLA2G4F": {
+  "entrez": "255189",
+  "pathways": [
+   "hsa00564",
+   "hsa00565",
+   "hsa00590",
+   "hsa00591",
+   "hsa00592",
+   "hsa01100",
+   "hsa04010",
+   "hsa04014",
+   "hsa04072",
+   "hsa04217",
+   "hsa04270",
+   "hsa04370",
+   "hsa04611",
+   "hsa04664",
+   "hsa04666",
+   "hsa04724",
+   "hsa04726",
+   "hsa04730",
+   "hsa04750",
+   "hsa04912",
+   "hsa04913",
+   "hsa04921",
+   "hsa05231"
+  ]
+ },
+ "POF1B": {
+  "entrez": "79983",
+  "pathways": []
+ },
+ "PON3": {
+  "entrez": "5446",
+  "pathways": []
+ },
+ "PPP1R14C": {
+  "entrez": "81706",
+  "pathways": []
+ },
+ "PRIMA1": {
+  "entrez": "145270",
+  "pathways": []
+ },
+ "PRKY": {
+  "entrez": null,
+  "pathways": []
+ },
+ "PROM2": {
+  "entrez": "150696",
+  "pathways": []
+ },
+ "PRSS22": {
+  "entrez": "64063",
+  "pathways": []
+ },
+ "RNF128": {
+  "entrez": "79589",
+  "pathways": []
+ },
+ "RPS4Y1": {
+  "entrez": "6192",
+  "pathways": [
+   "hsa03010",
+   "hsa05171"
+  ]
+ },
+ "S100P": {
+  "entrez": "64766",
+  "pathways": []
+ },
+ "SAA2": {
+  "entrez": "100528017",
+  "pathways": []
+ },
+ "SCNN1B": {
+  "entrez": "6338",
+  "pathways": [
+   "hsa04742",
+   "hsa04960"
+  ]
+ },
+ "SERPINB5": {
+  "entrez": "5268",
+  "pathways": [
+   "hsa04115",
+   "hsa05206"
+  ]
+ },
+ "SLC26A9": {
+  "entrez": "115019",
+  "pathways": [
+   "hsa04978",
+   "hsa05208"
+  ]
+ },
+ "SLC44A4": {
+  "entrez": "80736",
+  "pathways": [
+   "hsa05231"
+  ]
+ },
+ "SLC5A1": {
+  "entrez": "159963",
+  "pathways": []
+ },
+ "SLC6A14": {
+  "entrez": "11254",
+  "pathways": []
+ },
+ "SLC9A2": {
+  "entrez": "6549",
+  "pathways": []
+ },
+ "SLITRK6": {
+  "entrez": "84189",
+  "pathways": [
+   "hsa04514",
+   "hsa04517"
+  ]
+ },
+ "SPAG17": {
+  "entrez": "200162",
+  "pathways": []
+ },
+ "SYT13": {
+  "entrez": "57586",
+  "pathways": []
+ },
+ "SYT8": {
+  "entrez": "90019",
+  "pathways": []
+ },
+ "TFAP2A": {
+  "entrez": "7020",
+  "pathways": []
+ },
+ "TFF3": {
+  "entrez": "7033",
+  "pathways": []
+ },
+ "TMPRSS2": {
+  "entrez": "7113",
+  "pathways": [
+   "hsa05164",
+   "hsa05171",
+   "hsa05202",
+   "hsa05215"
+  ]
+ },
+ "TNS4": {
+  "entrez": "84951",
+  "pathways": []
+ },
+ "TP63": {
+  "entrez": "8626",
+  "pathways": [
+   "hsa05206"
+  ]
+ },
+ "TSPAN8": {
+  "entrez": "7103",
+  "pathways": []
+ },
+ "UGT1A6": {
+  "entrez": "54578",
+  "pathways": [
+   "hsa00040",
+   "hsa00053",
+   "hsa00140",
+   "hsa00830",
+   "hsa00860",
+   "hsa00980",
+   "hsa00982",
+   "hsa00983",
+   "hsa01100",
+   "hsa01240",
+   "hsa04976",
+   "hsa05204",
+   "hsa05207"
+  ]
+ },
+ "UGT8": {
+  "entrez": "7368",
+  "pathways": [
+   "hsa00565",
+   "hsa00600",
+   "hsa01100"
+  ]
+ },
+ "USP9Y": {
+  "entrez": "8287",
+  "pathways": []
+ },
+ "WNT2": {
+  "entrez": "7482",
+  "pathways": [
+   "hsa04150",
+   "hsa04310",
+   "hsa04390",
+   "hsa04519",
+   "hsa04550",
+   "hsa04916",
+   "hsa04934",
+   "hsa05010",
+   "hsa05022",
+   "hsa05165",
+   "hsa05200",
+   "hsa05205",
+   "hsa05217",
+   "hsa05224",
+   "hsa05225",
+   "hsa05226"
+  ]
+ },
+ "XDH": {
+  "entrez": "7498",
+  "pathways": [
+   "hsa00230",
+   "hsa00232",
+   "hsa00983",
+   "hsa01100",
+   "hsa01232",
+   "hsa04146"
+  ]
+ },
+ "ZNF750": {
+  "entrez": "79755",
+  "pathways": []
+ }
+}

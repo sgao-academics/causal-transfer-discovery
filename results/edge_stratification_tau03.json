@@ -1,0 +1,421 @@
+{
+ "d": 454,
+ "tau": 0.3,
+ "n_source_edges": 73,
+ "scratch_overlap": 28,
+ "scratch_retention_pct": 38.4,
+ "warm_overlap": 41,
+ "warm_retention_pct": 56.2,
+ "bands": [
+  {
+   "band": "[0.3, 0.4)",
+   "n": 25,
+   "scratch_kept": 6,
+   "scratch_pct": 24.0,
+   "warm_kept": 11,
+   "warm_pct": 44.0,
+   "genes": [
+    "ARSE",
+    "ATP2C2",
+    "C19orf33",
+    "C20orf151",
+    "C2orf40",
+    "C2orf72",
+    "C8orf47",
+    "CAPN6",
+    "CDO1",
+    "CHL1",
+    "COL10A1",
+    "CXCL17",
+    "DPP4",
+    "FUT6",
+    "GJB1",
+    "GPX2",
+    "GSTA1",
+    "HKDC1",
+    "HOXA11",
+    "KRT17",
+    "KRT19",
+    "KRT6B",
+    "LIPH",
+    "LONRF2",
+    "LRRN1",
+    "MSI1",
+    "MST1R",
+    "MUC16",
+    "ODZ1",
+    "PCSK1N",
+    "PKP1",
+    "PON3",
+    "PRKY",
+    "RPS4Y1",
+    "S100P",
+    "SAA2",
+    "SLC26A9",
+    "SLC9A2",
+    "SLITRK6",
+    "SYT13",
+    "SYT8",
+    "TFAP2A",
+    "TNS4",
+    "TP63",
+    "UGT8",
+    "ZNF750"
+   ],
+   "pathways": [
+    {
+     "id": "hsa01100",
+     "name": "Metabolic pathways",
+     "n_genes": 6
+    },
+    {
+     "id": "hsa04382",
+     "name": "Cornified envelope formation",
+     "n_genes": 4
+    },
+    {
+     "id": "hsa04519",
+     "name": "Cadherin signaling",
+     "n_genes": 4
+    },
+    {
+     "id": "hsa05208",
+     "name": "Chemical carcinogenesis - reactive oxygen species",
+     "n_genes": 3
+    },
+    {
+     "id": "hsa04974",
+     "name": "Protein digestion and absorption",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa00480",
+     "name": "Glutathione metabolism",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04915",
+     "name": "Estrogen signaling pathway",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa05150",
+     "name": "Staphylococcus aureus infection",
+     "n_genes": 2
+    }
+   ],
+   "n_genes_in_core_cancer": 1
+  },
+  {
+   "band": "[0.4, 0.5)",
+   "n": 18,
+   "scratch_kept": 3,
+   "scratch_pct": 16.7,
+   "warm_kept": 6,
+   "warm_pct": 33.3,
+   "genes": [
+    "ADH1C",
+    "BMP7",
+    "C20orf151",
+    "C8orf47",
+    "CLDN3",
+    "CST6",
+    "CXCL17",
+    "CYP4F3",
+    "FAM83E",
+    "FOLR1",
+    "HES2",
+    "HNF1B",
+    "HOXB13",
+    "IRX2",
+    "KCNJ15",
+    "KRT6A",
+    "LGI3",
+    "MAL",
+    "PCSK1N",
+    "PKP1",
+    "PRIMA1",
+    "PRKY",
+    "RNF128",
+    "RPS4Y1",
+    "S100P",
+    "SCNN1B",
+    "SLC5A1",
+    "SLC6A14",
+    "SPAG17",
+    "TMPRSS2",
+    "UGT1A6",
+    "XDH"
+   ],
+   "pathways": [
+    {
+     "id": "hsa01100",
+     "name": "Metabolic pathways",
+     "n_genes": 4
+    },
+    {
+     "id": "hsa04382",
+     "name": "Cornified envelope formation",
+     "n_genes": 3
+    },
+    {
+     "id": "hsa00830",
+     "name": "Retinol metabolism",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa00980",
+     "name": "Metabolism of xenobiotics by cytochrome P450",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa00982",
+     "name": "Drug metabolism - cytochrome P450",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04060",
+     "name": "Cytokine-cytokine receptor interaction",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa05215",
+     "name": "Prostate cancer",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04519",
+     "name": "Cadherin signaling",
+     "n_genes": 2
+    }
+   ],
+   "n_genes_in_core_cancer": 0
+  },
+  {
+   "band": "[0.5, 0.6)",
+   "n": 8,
+   "scratch_kept": 5,
+   "scratch_pct": 62.5,
+   "warm_kept": 5,
+   "warm_pct": 62.5,
+   "genes": [
+    "ANXA8",
+    "CEACAM6",
+    "GPR115",
+    "GREM1",
+    "HAND2",
+    "HOXA9",
+    "HS6ST2",
+    "KLK6",
+    "KRT16",
+    "KRT17",
+    "LIPH",
+    "PROM2",
+    "SPAG17",
+    "TSPAN8",
+    "UGT8"
+   ],
+   "pathways": [
+    {
+     "id": "hsa04382",
+     "name": "Cornified envelope formation",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04519",
+     "name": "Cadherin signaling",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04915",
+     "name": "Estrogen signaling pathway",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa05150",
+     "name": "Staphylococcus aureus infection",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04350",
+     "name": "TGF-beta signaling pathway",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa00534",
+     "name": "Glycosaminoglycan biosynthesis - heparan sulfate / heparin",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa04614",
+     "name": "Renin-angiotensin system",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa04961",
+     "name": "Endocrine and other factor-regulated calcium reabsorption",
+     "n_genes": 1
+    }
+   ],
+   "n_genes_in_core_cancer": 0
+  },
+  {
+   "band": "[0.6, 0.7)",
+   "n": 10,
+   "scratch_kept": 8,
+   "scratch_pct": 80.0,
+   "warm_kept": 9,
+   "warm_pct": 90.0,
+   "genes": [
+    "AZGP1",
+    "CAPN13",
+    "COL11A1",
+    "HAND2",
+    "HMGA2",
+    "HNF1B",
+    "KRT16",
+    "KRT17",
+    "KRT7",
+    "LPPR1",
+    "PDZK1IP1",
+    "PLA2G4F",
+    "PPP1R14C",
+    "S100P",
+    "SERPINB5",
+    "SLC44A4",
+    "TFF3",
+    "TMPRSS2",
+    "USP9Y"
+   ],
+   "pathways": [
+    {
+     "id": "hsa04382",
+     "name": "Cornified envelope formation",
+     "n_genes": 3
+    },
+    {
+     "id": "hsa04519",
+     "name": "Cadherin signaling",
+     "n_genes": 3
+    },
+    {
+     "id": "hsa05202",
+     "name": "Transcriptional misregulation in cancer",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa05206",
+     "name": "MicroRNAs in cancer",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04915",
+     "name": "Estrogen signaling pathway",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa05150",
+     "name": "Staphylococcus aureus infection",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa05231",
+     "name": "Choline metabolism in cancer",
+     "n_genes": 2
+    },
+    {
+     "id": "hsa04820",
+     "name": "Cytoskeleton in muscle cells",
+     "n_genes": 1
+    }
+   ],
+   "n_genes_in_core_cancer": 0
+  },
+  {
+   "band": "[0.7, 1.0)",
+   "n": 12,
+   "scratch_kept": 6,
+   "scratch_pct": 50.0,
+   "warm_kept": 10,
+   "warm_pct": 83.3,
+   "genes": [
+    "B3GNT3",
+    "BBOX1",
+    "C2orf40",
+    "EMX2OS",
+    "GABRB3",
+    "GLDC",
+    "KCNJ15",
+    "KRT7",
+    "LGI3",
+    "METTL7B",
+    "MUC1",
+    "PCSK9",
+    "POF1B",
+    "PRSS22",
+    "RNF128",
+    "SERPINB5",
+    "SLC26A9",
+    "SLC44A4",
+    "SLC6A14",
+    "TFAP2A",
+    "TSPAN8",
+    "WNT2"
+   ],
+   "pathways": [
+    {
+     "id": "hsa01100",
+     "name": "Metabolic pathways",
+     "n_genes": 3
+    },
+    {
+     "id": "hsa04519",
+     "name": "Cadherin signaling",
+     "n_genes": 3
+    },
+    {
+     "id": "hsa00512",
+     "name": "Mucin type O-glycan biosynthesis",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa00601",
+     "name": "Glycosphingolipid biosynthesis - lacto and neolacto series",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa00310",
+     "name": "Lysine degradation",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa04080",
+     "name": "Neuroactive ligand-receptor interaction",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa04082",
+     "name": "Neuroactive ligand signaling",
+     "n_genes": 1
+    },
+    {
+     "id": "hsa04723",
+     "name": "Retrograde endocannabinoid signaling",
+     "n_genes": 1
+    }
+   ],
+   "n_genes_in_core_cancer": 1
+  }
+ ],
+ "n_genes_annotated": 51,
+ "core_cancer": {
+  "n": 2,
+  "scratch_pct": 0.0,
+  "warm_pct": 100.0
+ },
+ "other": {
+  "n": 71,
+  "scratch_pct": 39.4,
+  "warm_pct": 54.9
+ }
+}

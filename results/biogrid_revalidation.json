@@ -1,0 +1,52 @@
+{
+  "gene_column": "MAD top-454 (correct)",
+  "results": {
+    "TCGA_source": {
+      "hits": 1,
+      "precision_pct": 0.5,
+      "examples": [
+        "KRT16->KRT7"
+      ]
+    },
+    "Scratch": {
+      "hits": 2,
+      "precision_pct": 1.0,
+      "examples": [
+        "KRT16->KRT7",
+        "PRSS3->AGR2"
+      ]
+    },
+    "TCGA_warm": {
+      "hits": 2,
+      "precision_pct": 1.0,
+      "examples": [
+        "AGR2->PRSS3",
+        "KRT7->KRT16"
+      ]
+    },
+    "DepMap_warm": {
+      "hits": 2,
+      "precision_pct": 1.0,
+      "examples": [
+        "KRT16->KRT7",
+        "PRSS3->AGR2"
+      ]
+    }
+  },
+  "preserved_edges_biogrid": {
+    "WNT2<->C2orf40": false,
+    "S100P<->PPP1R14C": false,
+    "PRKY<->ATP2C2": false,
+    "LGI3<->SLC26A9": false,
+    "POF1B<->SLC44A4": false
+  },
+  "depmap_edges_biogrid": {
+    "S100P<->PPP1R14C": false,
+    "POF1B<->KRT16": false,
+    "SLC44A4<->TSPAN8": false,
+    "HES2<->GPX2": false,
+    "TSPAN8<->PCSK9": false,
+    "PCSK9<->SERPINB5": false,
+    "USP9Y<->POF1B": false
+  }
+}

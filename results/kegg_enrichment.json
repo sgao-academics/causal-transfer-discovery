@@ -1,0 +1,87 @@
+{
+  "source": {
+    "n_edges": 54,
+    "n_genes": 84,
+    "top_pathways": []
+  },
+  "scratch": {
+    "n_edges": 95,
+    "n_genes": 124,
+    "top_pathways": [
+      {
+        "term": "hsa04061",
+        "description": "Viral protein interaction with cytokine and cytokine receptor",
+        "fdr": 0.0147,
+        "n_genes": 6,
+        "genes": [
+          "CCL13",
+          "CCL11",
+          "CCL19",
+          "XCR1",
+          "XCL1",
+          "CCL3L3"
+        ]
+      },
+      {
+        "term": "hsa04062",
+        "description": "Chemokine signaling pathway",
+        "fdr": 0.036,
+        "n_genes": 7,
+        "genes": [
+          "CCL13",
+          "CCL11",
+          "CCL19",
+          "XCR1",
+          "XCL1",
+          "VAV3",
+          "CCL3L3"
+        ]
+      }
+    ]
+  },
+  "warm": {
+    "n_edges": 93,
+    "n_genes": 122,
+    "top_pathways": []
+  },
+  "dm_warm": {
+    "n_edges": 100,
+    "n_genes": 124,
+    "top_pathways": [
+      {
+        "term": "hsa04061",
+        "description": "Viral protein interaction with cytokine and cytokine receptor",
+        "fdr": 0.0147,
+        "n_genes": 6,
+        "genes": [
+          "CCL13",
+          "CCL11",
+          "CCL19",
+          "XCR1",
+          "XCL1",
+          "CCL3L3"
+        ]
+      },
+      {
+        "term": "hsa04062",
+        "description": "Chemokine signaling pathway",
+        "fdr": 0.036,
+        "n_genes": 7,
+        "genes": [
+          "CCL13",
+          "CCL11",
+          "CCL19",
+          "XCR1",
+          "XCL1",
+          "VAV3",
+          "CCL3L3"
+        ]
+      }
+    ]
+  },
+  "transferred_only": {
+    "n_edges": 0,
+    "n_genes": 0,
+    "top_pathways": []
+  }
+}

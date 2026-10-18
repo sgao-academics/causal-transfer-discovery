@@ -1,0 +1,168 @@
+{
+  "config": {
+    "small_runner": [
+      789,
+      1011,
+      2024,
+      3141,
+      4242,
+      5555,
+      6789
+    ],
+    "table1_seeds": [
+      42,
+      123,
+      456
+    ],
+    "tau": 0.3,
+    "note": "source graphs for the new seeds use an explicit RNG seed; Table 1 seeds do not"
+  },
+  "d454_s2024_source": {
+    "h": 2.2946688886804623e-05,
+    "time": 415.3570747375488,
+    "outer": 35,
+    "edges": 75,
+    "explicit_seed": true
+  },
+  "d454_s2024_scratch": {
+    "h": 1.9262533101027657e-05,
+    "time": 422.91580510139465,
+    "outer": 35,
+    "src_edges": 75,
+    "tgt_edges": 106,
+    "overlap": 30,
+    "retention_pct": 40.0,
+    "pearson_r": 0.2385
+  },
+  "d454_s2024_warm": {
+    "h": 1.940751866413848e-05,
+    "time": 445.0610201358795,
+    "outer": 35,
+    "src_edges": 75,
+    "tgt_edges": 95,
+    "overlap": 41,
+    "retention_pct": 54.7,
+    "pearson_r": 0.2865
+  },
+  "d454_s2024_shuffled": {
+    "h": 1.7625866348680574e-05,
+    "time": 437.3368067741394,
+    "outer": 35,
+    "src_edges": 75,
+    "tgt_edges": 102,
+    "overlap": 25,
+    "retention_pct": 33.3,
+    "pearson_r": 0.2179
+  },
+  "d454_s3141_source": {
+    "h": 2.2415153182464564e-05,
+    "time": 431.8697419166565,
+    "outer": 35,
+    "edges": 72,
+    "explicit_seed": true
+  },
+  "d454_s3141_scratch": {
+    "h": 1.8641102883520944e-05,
+    "time": 448.7188892364502,
+    "outer": 35,
+    "src_edges": 72,
+    "tgt_edges": 94,
+    "overlap": 35,
+    "retention_pct": 48.6,
+    "pearson_r": 0.257
+  },
+  "d454_s3141_warm": {
+    "h": 1.8958985037897946e-05,
+    "time": 441.6792619228363,
+    "outer": 35,
+    "src_edges": 72,
+    "tgt_edges": 92,
+    "overlap": 42,
+    "retention_pct": 58.3,
+    "pearson_r": 0.3053
+  },
+  "d454_s3141_shuffled": {
+    "h": 1.8595725578052225e-05,
+    "time": 441.37944865226746,
+    "outer": 35,
+    "src_edges": 72,
+    "tgt_edges": 100,
+    "overlap": 27,
+    "retention_pct": 37.5,
+    "pearson_r": 0.2217
+  },
+  "d889_s2024_source": {
+    "h": 3.315558137728658e-05,
+    "time": 1885.5620906352997,
+    "outer": 35,
+    "edges": 112,
+    "explicit_seed": true
+  },
+  "d889_s2024_scratch": {
+    "h": 3.2385461622652656e-05,
+    "time": 1935.9719126224518,
+    "outer": 35,
+    "src_edges": 112,
+    "tgt_edges": 157,
+    "overlap": 58,
+    "retention_pct": 51.8,
+    "pearson_r": 0.2539
+  },
+  "d889_s2024_warm": {
+    "h": 3.294340103821014e-05,
+    "time": 1725.9743938446045,
+    "outer": 35,
+    "src_edges": 112,
+    "tgt_edges": 146,
+    "overlap": 75,
+    "retention_pct": 67.0,
+    "pearson_r": 0.3182
+  },
+  "d889_s2024_shuffled": {
+    "h": 3.371472541857656e-05,
+    "time": 1796.5631890296936,
+    "outer": 35,
+    "src_edges": 112,
+    "tgt_edges": 146,
+    "overlap": 45,
+    "retention_pct": 40.2,
+    "pearson_r": 0.2123
+  },
+  "d889_s3141_source": {
+    "h": 3.297084981568332e-05,
+    "time": 1697.8831841945648,
+    "outer": 35,
+    "edges": 110,
+    "explicit_seed": true
+  },
+  "d889_s3141_scratch": {
+    "h": 3.368979605511413e-05,
+    "time": 1245.654643535614,
+    "outer": 35,
+    "src_edges": 110,
+    "tgt_edges": 156,
+    "overlap": 49,
+    "retention_pct": 44.5,
+    "pearson_r": 0.2181
+  },
+  "d889_s3141_warm": {
+    "h": 3.329523201500706e-05,
+    "time": 1241.581848859787,
+    "outer": 35,
+    "src_edges": 110,
+    "tgt_edges": 151,
+    "overlap": 79,
+    "retention_pct": 71.8,
+    "pearson_r": 0.318
+  },
+  "d889_s3141_shuffled": {
+    "h": 3.28125174746674e-05,
+    "time": 1235.7758848667145,
+    "outer": 35,
+    "src_edges": 110,
+    "tgt_edges": 157,
+    "overlap": 40,
+    "retention_pct": 36.4,
+    "pearson_r": 0.1937
+  }
+}

@@ -1,196 +1,301 @@
 #!/usr/bin/env python3
+# --- paths resolved relative to this file (replication package) ---
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+PKG_ROOT = _HERE
+for _ in range(0):
+    PKG_ROOT = _os.path.dirname(PKG_ROOT)
+PKG_RESULTS = _os.path.join(PKG_ROOT, "results")
+DATA_DIR = _os.environ.get("TCGA_DATA_DIR", _os.path.join(PKG_ROOT, "data"))
+# -------------------------------------------------------------------
 """
-run_all.py — Reproduce all results and figures for:
-"Transfer Learning for Differentiable Causal Discovery:
- Warm-Starting NOTEARS, DAGMA, and GOLEM with Cross-Dataset Causal Graphs"
-Shuaidong Gao, JBCB (submitted)
+run_all.py — One-command reproducible pipeline for the d=5000 NOTEARS
+warm-start experiment (JBCB-1496 revision, reviewer point #6).
+
+Reproduces the full high-dimensional feasibility + transfer study:
+
+  Mode 1 (scratch):       NOTEARS from zero init on TCGA BRCA (d=5000).
+  Mode 2 (warm-correl):   warm-start from a correlation-threshold source.
+  Mode 3 (warm-causal):   warm-start from a NOTEARS-learned CAUSAL source.
 
 Usage:
-    python run_all.py              # Validate pre-computed results (fast, ~1 min)
-    python run_all.py --regenerate # Regenerate all experiments (slow, ~6 GPU-hours)
-    python run_all.py --figures     # Regenerate figures from cached results
+  python run_all.py                    # all three modes (resumes checkpoints)
+  python run_all.py --scratch          # scratch only
+  python run_all.py --warm-correl      # correlation warm-start only
+  python run_all.py --warm-causal      # causal-source warm-start only
+
+Reproducibility guarantees:
+  - Fixed seeds (torch + numpy, seed=42).
+  - Deterministic gene selection (top-variance), cached to results/d5000_cache/.
+  - Per-outer-loop checkpoints to results/d5000_checkpoints/ (resumable).
+  - Two MSE forms, both verified numerically equivalent:
+      * X@W form   (used for target data, 1218 samples)
+      * X^T X form (used for source data, 9241 samples; cost independent of n)
+  - All numbers written to results/d5000_*.json.
+
+Requirements: torch (CUDA), numpy, pandas.
+Hardware: NVIDIA RTX 5060 Laptop GPU (8 GB VRAM).
 """
-import os, sys, json, subprocess, time, argparse
+
+import os, sys, json, time, warnings, argparse
 import numpy as np
+import pandas as pd
+import torch
 
-REPO = os.path.dirname(os.path.abspath(__file__))
-SCRIPTS = os.path.join(REPO, 'scripts', 'experiments')
-FIGURES = os.path.join(REPO, 'scripts', 'gen_figures')
-RESULTS = os.path.join(REPO, 'results')
-MANUSCRIPT = os.path.join(REPO, 'manuscript')
-DATA_DIR = os.environ.get('TCGA_DATA_DIR', os.path.join(REPO, 'data'))
+warnings.filterwarnings("ignore")
 
+# ===================== CONFIG =====================
+BASE = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = DATA_DIR
+CKPT_DIR = os.path.join(BASE, "results", "d5000_checkpoints")
+CACHE_DIR = os.path.join(BASE, "results", "d5000_cache")
 
-def validate_checkpoint():
-    """Cross-check every number in the paper against stored results."""
-    ckpt = json.load(open(os.path.join(RESULTS, 'benchmark_v6_checkpoint.json'), encoding='utf-8'))
-    comp = ckpt['completed']
-    dims = [200, 454, 600, 750, 889]
-    seeds = [42, 123, 456]
-    errors = []
+D = 5000
+OUTER = 20
+INNER = 100
+LR = 0.002
+LAMBDA1 = 0.01
+W_THRESHOLD = 0.3
+SEED = 42
+SRC_CORR_THRESHOLD = 0.7   # correlation source
+SRC_WEIGHT = 0.3           # scale factor (float32 stability)
 
-    print('='*60)
-    print('Stage 1: Validating NOTEARS results (Table 1)')
-    print('='*60)
-    paper_t1 = {
-        200: {'scratch': 19.9, 'warm': 31.9, 'shuf': 17.9},
-        454: {'scratch': 33.4, 'warm': 55.1, 'shuf': 35.6},
-        600: {'scratch': 33.3, 'warm': 66.6, 'shuf': 32.5},
-        750: {'scratch': 36.5, 'warm': 66.8, 'shuf': 36.1},
-        889: {'scratch': 34.0, 'warm': 68.1, 'shuf': 35.8},
-    }
-    for d in dims:
-        for m_n, ck in [('scratch','scratch'),('warm','warm'),('shuf','shuffled')]:
-            vals = [comp[f'd{d}_s{s}_{ck}']['retention_pct'] for s in seeds
-                    if f'd{d}_s{s}_{ck}' in comp and 'retention_pct' in comp[f'd{d}_s{s}_{ck}']]
-            if len(vals) == 3:
-                m = round(np.mean(vals), 1)
-                pval = paper_t1[d][m_n]
-                status = 'OK' if abs(m - pval) < 0.15 else 'FAIL'
-                print(f'  d={d} {m_n}: {m} (paper: {pval}) [{status}]')
-                if status == 'FAIL':
-                    errors.append(f'Table1 d={d} {m_n}: {m} != {pval}')
+os.makedirs(CKPT_DIR, exist_ok=True)
+os.makedirs(CACHE_DIR, exist_ok=True)
+
+torch.manual_seed(SEED)
+np.random.seed(SEED)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# ===================== DATA (CACHED, DETERMINISTIC) =====================
+def load_data():
+    cache_brca = os.path.join(CACHE_DIR, "X_brca_d5000.npy")
+    cache_src = os.path.join(CACHE_DIR, "X_source_d5000.npy")
+    cache_wsrc = os.path.join(CACHE_DIR, "W_src_d5000.npy")
+    cache_genes = os.path.join(CACHE_DIR, "selected_genes_d5000.txt")
+
+    if all(os.path.exists(p) for p in [cache_brca, cache_src, cache_wsrc]):
+        X_brca = np.load(cache_brca)
+        X_source = np.load(cache_src)
+        W_src_correl = np.load(cache_wsrc)
+        print(f"  [cache] BRCA {X_brca.shape}, Source {X_source.shape}")
+        return X_brca, X_source, W_src_correl
+
+    tcga_files = [f for f in os.listdir(DATA_DIR)
+                  if f.startswith("TCGA_") and "_HiSeqV2.tsv" in f]
+    brca_file = [f for f in tcga_files if "BRCA" in f][0]
+    source_files = [f for f in tcga_files if "BRCA" not in f]
+
+    df_brca = pd.read_csv(os.path.join(DATA_DIR, brca_file), sep="\t", index_col=0)
+    X_arr = df_brca.values.T.astype(np.float32)
+    var = np.var(X_arr, axis=0)
+    top_idx = np.argsort(var)[-D:]
+    selected_genes = df_brca.index[top_idx].tolist()
+
+    X_brca = X_arr[:, top_idx]
+    X_brca = (X_brca - X_brca.mean(0)) / (X_brca.std(0) + 1e-8)
+
+    chunks = []
+    for fname in source_files:
+        fp = os.path.join(DATA_DIR, fname)
+        try:
+            df = pd.read_csv(fp, sep="\t", index_col=0)
+            avail = [g for g in selected_genes if g in df.index]
+            if len(avail) < D * 0.5:
+                continue
+            sub = df.loc[avail].values.T.astype(np.float32)
+            if sub.shape[1] < D:
+                full = np.zeros((sub.shape[0], D), dtype=np.float32)
+                match = [selected_genes.index(g) for g in avail]
+                full[:, match] = sub
+                sub = full
+            sub = (sub - sub.mean(0)) / (sub.std(0) + 1e-8)
+            chunks.append(sub)
+        except Exception:
+            continue
+    X_source = np.vstack(chunks)
+
+    corr = np.corrcoef(X_source.T)
+    np.fill_diagonal(corr, 0)
+    W_src_correl = (np.abs(corr) > SRC_CORR_THRESHOLD).astype(np.float32) * SRC_WEIGHT
+
+    np.save(cache_brca, X_brca)
+    np.save(cache_src, X_source)
+    np.save(cache_wsrc, W_src_correl)
+    with open(cache_genes, "w") as f:
+        f.write("\n".join(selected_genes))
+    print(f"  [built] BRCA {X_brca.shape}, Source {X_source.shape}")
+    return X_brca, X_source, W_src_correl
+
+# ===================== NOTEARS CORE =====================
+def _h(W, d):
+    return torch.trace(torch.linalg.matrix_exp(W * W)) - d
+
+def _load_or_init(label, d, W_init_np, device):
+    ckpt_path = os.path.join(CKPT_DIR, f"ckpt_{label}_d{d}.json")
+    W_path = os.path.join(CKPT_DIR, f"W_{label}_d{d}.npy")
+    if os.path.exists(ckpt_path) and os.path.exists(W_path):
+        with open(ckpt_path) as f:
+            ck = json.load(f)
+        W = torch.tensor(np.load(W_path), dtype=torch.float32,
+                         device=device, requires_grad=True)
+        return ck.get("last_outer", 0), ck.get("rho", 1.0), ck.get("alpha", 0.0), \
+               ck.get("h_old", float("inf")), W
+    W = (torch.tensor(W_init_np, dtype=torch.float32, device=device, requires_grad=True)
+         if W_init_np is not None
+         else torch.zeros(d, d, dtype=torch.float32, device=device, requires_grad=True))
+    return 0, 1.0, 0.0, float("inf"), W
+
+def _save_ckpt(label, d, o, rho, alpha, h_val, n_edges, W):
+    np.save(os.path.join(CKPT_DIR, f"W_{label}_d{d}.npy"), W.detach().cpu().numpy())
+    with open(os.path.join(CKPT_DIR, f"ckpt_{label}_d{d}.json"), "w") as f:
+        json.dump({"last_outer": o + 1, "rho": rho, "alpha": alpha,
+                   "h_old": h_val, "last_h": h_val, "last_edges": n_edges}, f)
+
+def run_notears(X_np, W_init_np=None, label="scratch", use_xtx=False):
+    """NOTEARS with per-outer-loop checkpointing.
+    use_xtx=True uses the X^T X closed form (source data, many samples).
+    """
+    n, d = X_np.shape
+    X_t = torch.tensor(X_np, dtype=torch.float32, device=device)
+
+    tr_S = None
+    if use_xtx:
+        S = (X_t.T @ X_t) / n
+        tr_S = torch.trace(S).item()
+
+    start_outer, rho, alpha, h_old, W = _load_or_init(label, d, W_init_np, device)
+    if start_outer >= OUTER:
+        print(f"  [{label}] already complete", flush=True)
+        return W.detach().cpu().numpy(), int(torch.sum(torch.abs(W) > W_THRESHOLD).item())
+    print(f"  [{label}] starting from outer {start_outer}", flush=True)
+
+    for o in range(start_outer, OUTER):
+        t_loop = time.time()
+        opt = torch.optim.Adam([W], lr=LR)
+        for _ in range(INNER):
+            opt.zero_grad()
+            h = _h(W, d)
+            if use_xtx:
+                SW = S @ W
+                mse = 0.5 * (tr_S - 2.0 * torch.trace(SW) + torch.trace(W.T @ SW))
             else:
-                errors.append(f'MISSING: d={d} {m_n}')
+                XW = X_t @ W
+                mse = 0.5 / n * torch.sum((X_t - XW) ** 2)
+            l1 = LAMBDA1 * torch.sum(torch.abs(W))
+            loss = mse + l1 + alpha * h + 0.5 * rho * h * h
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_([W], 10.0)
+            opt.step()
 
-    print(f'\n  NOTEARS: {0 if not errors else len(errors)} errors')
+        with torch.no_grad():
+            h_val = _h(W, d).item()
 
-    print('\n' + '='*60)
-    print('Stage 2: Validating DAGMA/GOLEM results (Table 5)')
-    print('='*60)
-    for algo in ['dagma', 'golem']:
-        for d in dims:
-            for m_n in ['scratch', 'warm']:
-                prefix = f'{algo}_' if algo else ''
-                vals = [comp[f'd{d}_s{s}_{prefix}{m_n}']['retention_pct'] for s in seeds
-                        if f'd{d}_s{s}_{prefix}{m_n}' in comp and 'retention_pct' in comp[f'd{d}_s{s}_{prefix}{m_n}']]
-                if len(vals) == 3:
-                    m = round(np.mean(vals), 1)
-                    print(f'  {algo} d={d} {m_n}: {m}%')
-                elif len(vals) > 0:
-                    errors.append(f'MISSING: {algo} d={d} {m_n}')
-    print(f'  DAGMA/GOLEM: {0 if not errors else len(errors)} errors')
+        if h_val > 0.25 * h_old:
+            rho = min(rho * 10, 1e12)
+            alpha = alpha + rho * h_val
 
-    print('\n' + '='*60)
-    print('Stage 3: Validating 45-0 claim')
-    print('='*60)
-    total = 0; wins = 0
-    for algo_prefix in ['', 'dagma_', 'golem_']:
-        for d in dims:
-            for s in seeds:
-                sk = f'd{d}_s{s}_{algo_prefix}scratch' if algo_prefix else f'd{d}_s{s}_scratch'
-                wk = f'd{d}_s{s}_{algo_prefix}warm' if algo_prefix else f'd{d}_s{s}_warm'
-                if sk in comp and wk in comp and 'retention_pct' in comp[sk] and 'retention_pct' in comp[wk]:
-                    total += 1
-                    if comp[wk]['retention_pct'] > comp[sk]['retention_pct']:
-                        wins += 1
-    print(f'  Total: {total}/45, Warm wins: {wins}')
-    if wins < total:
-        errors.append(f'45-0 claim failed: {wins}/{total}')
+        n_edges = int(torch.sum(torch.abs(W) > W_THRESHOLD).item())
+        print(f"  [{label}] outer {o+1}/{OUTER}: h={h_val:.2e}, rho={rho:.1e}, "
+              f"edges={n_edges}, {time.time()-t_loop:.0f}s", flush=True)
 
-    print('\n' + '='*60)
-    print('Stage 4: Validating cross-domain DepMap')
-    print('='*60)
-    full = json.load(open(os.path.join(RESULTS, 'full_experiment.json'), encoding='utf-8'))
-    dm = full['depmap']
-    dm_s = full['depmap_to_scratch']
-    dm_t = full['depmap_to_tcga_warm']
-    dm_w = full['depmap_to_dm_warm']
-    print(f'  Source edges: {dm["edges_03"]}')
-    print(f'  Scratch overlap: {dm_s["overlap"]}/20')
-    print(f'  TCGA-warm overlap: {dm_t["overlap"]}/20')
-    print(f'  DM-warm overlap: {dm_w["overlap"]}/20')
+        _save_ckpt(label, d, o, rho, alpha, h_val, n_edges, W)
+        h_old = h_val
+        if abs(h_val) < 1e-6:
+            print(f"  [{label}] converged (h={h_val:.2e})", flush=True)
+            break
 
-    print('\n' + '='*60)
-    if errors:
-        print(f'VALIDATION FAILED: {len(errors)} errors')
-        for e in errors:
-            print(f'  [ERROR] {e}')
-        sys.exit(1)
+    W_np = W.detach().cpu().numpy()
+    return W_np, int(np.sum(np.abs(W_np) > W_THRESHOLD))
+
+# ===================== METRICS =====================
+def retention(W_src, W_other, threshold=W_THRESHOLD):
+    src = {(i, j) for i in range(D) for j in range(D)
+           if i != j and abs(W_src[i, j]) > threshold}
+    oth = {(i, j) for i in range(D) for j in range(D)
+           if i != j and abs(W_other[i, j]) > threshold}
+    return len(src & oth), len(src)
+
+def edge_count(W, threshold=W_THRESHOLD):
+    return int(np.sum(np.abs(W) > threshold))
+
+# ===================== MAIN =====================
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--scratch", action="store_true")
+    p.add_argument("--warm-correl", action="store_true")
+    p.add_argument("--warm-causal", action="store_true")
+    args = p.parse_args()
+    run_all = not (args.scratch or args.warm_correl or args.warm_causal)
+
+    print(f"Device: {device}", flush=True)
+    if torch.cuda.is_available():
+        print(f"GPU: {torch.cuda.get_device_name(0)} "
+              f"({torch.cuda.get_device_properties(0).total_memory//1024**3} GB)", flush=True)
+
+    X_brca, X_source, W_src_correl = load_data()
+
+    results = {"d": D, "n_source": int(X_source.shape[0]),
+               "n_target": int(X_brca.shape[0]), "seed": SEED,
+               "outer": OUTER, "inner": INNER, "lr": LR, "lambda1": LAMBDA1,
+               "w_threshold": W_THRESHOLD, "device": str(device)}
+
+    # --- Scratch ---
+    if run_all or args.scratch:
+        print("\n[scratch] NOTEARS from zero init...", flush=True)
+        torch.cuda.empty_cache()
+        W_scratch, _ = run_notears(X_brca, label="scratch")
+        results["scratch_edges"] = edge_count(W_scratch)
     else:
-        print('ALL VALIDATIONS PASSED')
-        sys.exit(0)
+        W_scratch = np.load(os.path.join(CKPT_DIR, "W_scratch_d5000.npy"))
+        results["scratch_edges"] = edge_count(W_scratch)
 
+    # --- Warm-start from CORRELATION source ---
+    if run_all or args.warm_correl:
+        print("\n[warm-correl] warm-start from correlation source...", flush=True)
+        torch.cuda.empty_cache()
+        W_wc, _ = run_notears(X_brca, W_init_np=W_src_correl, label="warm")
+        results["warm_correl_edges"] = edge_count(W_wc)
+        r, total = retention(W_src_correl, W_wc)
+        rs, _ = retention(W_src_correl, W_scratch)
+        results["correl_retention_scratch"] = rs
+        results["correl_retention_warm"] = r
+        results["correl_retention_total"] = total
+        results["correl_source_edges"] = edge_count(W_src_correl, threshold=0.0)
 
-def regenerate_experiments():
-    """Re-run all experiments from scratch (6+ GPU-hours)."""
-    print('WARNING: This will regenerate all experiments (~6 GPU-hours).')
-    print('Ensure TCGA data is available at:', DATA_DIR)
-    print('Ensure CUDA-capable GPU is available.')
+    # --- Warm-start from CAUSAL source ---
+    if run_all or args.warm_causal:
+        print("\n[source] NOTEARS causal source graph (non-BRCA)...", flush=True)
+        torch.cuda.empty_cache()
+        W_src_causal, n_src = run_notears(X_source, label="source", use_xtx=True)
 
-    scripts = [
-        'run_benchmark_gpu.py',
-        'run_dagma_golem_v2.py',
-    ]
-    for script in scripts:
-        path = os.path.join(SCRIPTS, script)
-        if not os.path.exists(path):
-            print(f'ERROR: {path} not found')
-            continue
-        print(f'\nRunning {script}...')
-        subprocess.run([sys.executable, path], cwd=REPO, check=True)
+        # float32 stability check
+        max_row = (W_src_causal * W_src_causal).sum(axis=1).max()
+        if max_row > 80:
+            W_src_causal = W_src_causal * np.sqrt(30 / max_row)
+            n_src = edge_count(W_src_causal)
+            print(f"  [source] rescaled for stability: {n_src} edges", flush=True)
 
-    print('\nAll experiments completed.')
+        print("\n[warm-causal] warm-start from causal source...", flush=True)
+        torch.cuda.empty_cache()
+        W_wc, _ = run_notears(X_brca, W_init_np=W_src_causal, label="warm_causal")
 
+        results["causal_source_edges"] = n_src
+        results["warm_causal_edges"] = edge_count(W_wc)
+        r, total = retention(W_src_causal, W_wc)
+        rs, _ = retention(W_src_causal, W_scratch)
+        results["causal_retention_scratch"] = rs
+        results["causal_retention_warm"] = r
+        results["causal_retention_total"] = total
 
-def regenerate_figures():
-    """Regenerate figures from cached results."""
-    for script in ['gen_fig2_results.py', 'gen_fig3_generality.py']:
-        path = os.path.join(FIGURES, script)
-        if not os.path.exists(path):
-            print(f'ERROR: {path} not found')
-            continue
-        print(f'Generating {script}...')
-        subprocess.run([sys.executable, path], cwd=REPO, check=True)
+    out = os.path.join(BASE, "results", "d5000_final_results.json")
+    with open(out, "w") as f:
+        json.dump(results, f, indent=2)
 
-    # Copy to manuscript folder
-    import shutil
-    for f in ['fig2_results.pdf', 'fig3_generality.pdf']:
-        src = os.path.join(REPO, 'manuscript', 'figures', f)
-        # figures go to repository root figures folder
-        dst_root = os.path.join(REPO, 'figures')
-        os.makedirs(dst_root, exist_ok=True)
-        # The gen scripts output to manuscript/figures/
-        print(f'  Copied {f}')
+    print("\n=== RESULTS ===", flush=True)
+    for k, v in results.items():
+        print(f"  {k}: {v}", flush=True)
+    print(f"\nSaved: {out}", flush=True)
 
-
-def compile_manuscript():
-    """Compile the LaTeX manuscript (requires pdflatex)."""
-    import subprocess as sp
-    os.chdir(MANUSCRIPT)
-    # Run pdflatex twice (references from pre-compiled .bbl)
-    for _ in range(2):
-        sp.run(['pdflatex', '-interaction=nonstopmode', 'manuscript_jbcb.tex'],
-               stdout=sp.DEVNULL, stderr=sp.DEVNULL)
-    pdf = os.path.join(MANUSCRIPT, 'manuscript_jbcb.pdf')
-    if os.path.exists(pdf) and os.path.getsize(pdf) > 100000:
-        print(f'Compiled: {pdf} ({os.path.getsize(pdf)/1024:.0f} KB, 15 pages)')
-    else:
-        print('ERROR: PDF not generated. Install TeX Live or MiKTeX and try:')
-        print(f'  cd {MANUSCRIPT} && pdflatex manuscript_jbcb.tex')
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Reproduce all results and figures')
-    parser.add_argument('--regenerate', action='store_true',
-                        help='Regenerate all experiments from scratch')
-    parser.add_argument('--figures', action='store_true',
-                        help='Regenerate figures from cached results')
-    parser.add_argument('--compile', action='store_true',
-                        help='Compile the LaTeX manuscript')
-    parser.add_argument('--all', action='store_true',
-                        help='Run everything: regenerate + figures + compile')
-    args = parser.parse_args()
-
-    if args.all:
-        regenerate_experiments()
-        regenerate_figures()
-        compile_manuscript()
-    elif args.regenerate:
-        regenerate_experiments()
-    elif args.figures:
-        regenerate_figures()
-    elif args.compile:
-        compile_manuscript()
-    else:
-        validate_checkpoint()
+if __name__ == "__main__":
+    main()

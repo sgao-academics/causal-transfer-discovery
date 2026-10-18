@@ -1,0 +1,60 @@
+{
+  "trrust": {
+    "src": 0,
+    "scratch": 0,
+    "tcga_warm": 0,
+    "dm_warm": 0,
+    "total": 200
+  },
+  "threshold_sensitivity": {},
+  "scaling_law": {
+    "ds": [
+      200,
+      454,
+      889
+    ],
+    "ret_scratch": [
+      18.6,
+      38.4,
+      39.8
+    ],
+    "ret_warm": [
+      30.5,
+      56.2,
+      75.9
+    ]
+  },
+  "preserved_edges": 16,
+  "top_preserved": [
+    {
+      "gene_i": "LGI3",
+      "gene_j": "SLC26A9",
+      "w_src": 0.7755348483382186,
+      "w_tw": 0.8092055285555192
+    },
+    {
+      "gene_i": "PRKY",
+      "gene_j": "ATP2C2",
+      "w_src": 0.35732798298476065,
+      "w_tw": 0.7859103666883578
+    },
+    {
+      "gene_i": "WNT2",
+      "gene_j": "C2orf40",
+      "w_src": 0.7790153441577996,
+      "w_tw": 0.779551554901987
+    },
+    {
+      "gene_i": "S100P",
+      "gene_j": "PPP1R14C",
+      "w_src": 0.6463899695916887,
+      "w_tw": 0.7191665250033804
+    },
+    {
+      "gene_i": "POF1B",
+      "gene_j": "SLC44A4",
+      "w_src": 0.7075162406297226,
+      "w_tw": 0.6264881229429448
+    }
+  ]
+}

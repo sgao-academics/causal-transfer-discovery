@@ -1,13 +1,18 @@
-__pycache__/
-*.pyc
-*.pyo
+# build artefacts
 *.aux
 *.log
 *.out
 *.blg
-*.toc
-*.bcf
-*.run.xml
+*.bbl
+*.fls
+*.fdb_latexmk
 *.synctex.gz
-.DS_Store
-Thumbs.db
+__pycache__/
+*.pyc
+
+# large intermediates regenerated from the archived results
+results/cache/*.npy
+!results/cache/src_d454_s42.npy
+!results/cache/warm_d454_s42.npy
+!results/cache/scratch_d454_s42.npy
+results/d5000_cache/*.npy

@@ -1,0 +1,1554 @@
+{
+  "config": {
+    "d": 100,
+    "m_edges": 16,
+    "n_src": 2000,
+    "n_tgt": 140,
+    "tau": 0.3,
+    "rhos": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "seeds": [
+      42,
+      123,
+      456
+    ],
+    "note": "pool is an estimator, not an initialisation"
+  },
+  "runs": [
+    {
+      "seed": 42,
+      "rho": 0.0,
+      "shared_true": 0,
+      "n_src_edges_learned": 18,
+      "src_learn_time": 9.1,
+      "prior": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 34
+      },
+      "scratch": {
+        "precision": 0.07792207792207792,
+        "recall": 0.375,
+        "f1": 0.12903225806451613,
+        "shd": 81,
+        "tp": 6,
+        "n_edges": 77,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 9.9
+      },
+      "warm": {
+        "precision": 0.07692307692307693,
+        "recall": 0.375,
+        "f1": 0.12765957446808512,
+        "shd": 82,
+        "tp": 6,
+        "n_edges": 78,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 9.8
+      },
+      "shuffled": {
+        "precision": 0.07692307692307693,
+        "recall": 0.375,
+        "f1": 0.12765957446808512,
+        "shd": 82,
+        "tp": 6,
+        "n_edges": 78,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 9.7
+      },
+      "oracle": {
+        "precision": 0.11904761904761904,
+        "recall": 0.625,
+        "f1": 0.19999999999999998,
+        "shd": 80,
+        "tp": 10,
+        "n_edges": 84,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 9.7
+      },
+      "tgtcorr": {
+        "precision": 0.07894736842105263,
+        "recall": 0.375,
+        "f1": 0.13043478260869565,
+        "shd": 80,
+        "tp": 6,
+        "n_edges": 76,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 9.8
+      },
+      "tgtreg": {
+        "precision": 0.09195402298850575,
+        "recall": 0.5,
+        "f1": 0.1553398058252427,
+        "shd": 87,
+        "tp": 8,
+        "n_edges": 87,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 9.7
+      },
+      "degmatch": {
+        "precision": 0.07692307692307693,
+        "recall": 0.375,
+        "f1": 0.12765957446808512,
+        "shd": 82,
+        "tp": 6,
+        "n_edges": 78,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.7
+      },
+      "pool": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 34,
+        "tp": 0,
+        "n_edges": 18,
+        "retention_pct": 83.33333333333333,
+        "harm": 15,
+        "retention_is_tautological": true,
+        "time": 9.9
+      }
+    },
+    {
+      "seed": 42,
+      "rho": 1.0,
+      "shared_true": 16,
+      "n_src_edges_learned": 18,
+      "src_learn_time": 10.0,
+      "prior": {
+        "precision": 0.2777777777777778,
+        "recall": 0.3125,
+        "f1": 0.29411764705882354,
+        "shd": 24
+      },
+      "scratch": {
+        "precision": 0.08333333333333333,
+        "recall": 0.4375,
+        "f1": 0.13999999999999999,
+        "shd": 86,
+        "tp": 7,
+        "n_edges": 84,
+        "retention_pct": 33.333333333333336,
+        "harm": 5,
+        "time": 10.3
+      },
+      "warm": {
+        "precision": 0.08433734939759036,
+        "recall": 0.4375,
+        "f1": 0.14141414141414144,
+        "shd": 85,
+        "tp": 7,
+        "n_edges": 83,
+        "retention_pct": 55.55555555555556,
+        "harm": 7,
+        "time": 10.3
+      },
+      "shuffled": {
+        "precision": 0.08139534883720931,
+        "recall": 0.4375,
+        "f1": 0.1372549019607843,
+        "shd": 88,
+        "tp": 7,
+        "n_edges": 86,
+        "retention_pct": 33.333333333333336,
+        "harm": 5,
+        "time": 10.3
+      },
+      "oracle": {
+        "precision": 0.10112359550561797,
+        "recall": 0.5625,
+        "f1": 0.17142857142857143,
+        "shd": 87,
+        "tp": 9,
+        "n_edges": 89,
+        "retention_pct": 44.44444444444444,
+        "harm": 5,
+        "time": 10.3
+      },
+      "tgtcorr": {
+        "precision": 0.06172839506172839,
+        "recall": 0.3125,
+        "f1": 0.10309278350515463,
+        "shd": 87,
+        "tp": 5,
+        "n_edges": 81,
+        "retention_pct": 44.44444444444444,
+        "harm": 7,
+        "time": 10.5
+      },
+      "tgtreg": {
+        "precision": 0.08235294117647059,
+        "recall": 0.4375,
+        "f1": 0.1386138613861386,
+        "shd": 87,
+        "tp": 7,
+        "n_edges": 85,
+        "retention_pct": 33.333333333333336,
+        "harm": 5,
+        "time": 10.3
+      },
+      "degmatch": {
+        "precision": 0.08139534883720931,
+        "recall": 0.4375,
+        "f1": 0.1372549019607843,
+        "shd": 88,
+        "tp": 7,
+        "n_edges": 86,
+        "retention_pct": 33.333333333333336,
+        "harm": 5,
+        "time": 10.3
+      },
+      "pool": {
+        "precision": 0.3888888888888889,
+        "recall": 0.4375,
+        "f1": 0.411764705882353,
+        "shd": 20,
+        "tp": 7,
+        "n_edges": 18,
+        "retention_pct": 88.88888888888889,
+        "harm": 11,
+        "retention_is_tautological": true,
+        "time": 9.9
+      }
+    },
+    {
+      "seed": 123,
+      "rho": 0.0,
+      "shared_true": 0,
+      "n_src_edges_learned": 17,
+      "src_learn_time": 10.7,
+      "prior": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 33
+      },
+      "scratch": {
+        "precision": 0.11688311688311688,
+        "recall": 0.5625,
+        "f1": 0.1935483870967742,
+        "shd": 75,
+        "tp": 9,
+        "n_edges": 77,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 11.3
+      },
+      "warm": {
+        "precision": 0.12,
+        "recall": 0.5625,
+        "f1": 0.19780219780219782,
+        "shd": 73,
+        "tp": 9,
+        "n_edges": 75,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.5
+      },
+      "shuffled": {
+        "precision": 0.1232876712328767,
+        "recall": 0.5625,
+        "f1": 0.20224719101123595,
+        "shd": 71,
+        "tp": 9,
+        "n_edges": 73,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "oracle": {
+        "precision": 0.1375,
+        "recall": 0.6875,
+        "f1": 0.2291666666666667,
+        "shd": 74,
+        "tp": 11,
+        "n_edges": 80,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "tgtcorr": {
+        "precision": 0.11842105263157894,
+        "recall": 0.5625,
+        "f1": 0.19565217391304343,
+        "shd": 74,
+        "tp": 9,
+        "n_edges": 76,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "tgtreg": {
+        "precision": 0.12162162162162163,
+        "recall": 0.5625,
+        "f1": 0.20000000000000004,
+        "shd": 72,
+        "tp": 9,
+        "n_edges": 74,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "degmatch": {
+        "precision": 0.1232876712328767,
+        "recall": 0.5625,
+        "f1": 0.20224719101123595,
+        "shd": 71,
+        "tp": 9,
+        "n_edges": 73,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "pool": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 32,
+        "tp": 0,
+        "n_edges": 16,
+        "retention_pct": 76.47058823529412,
+        "harm": 13,
+        "retention_is_tautological": true,
+        "time": 9.9
+      }
+    },
+    {
+      "seed": 456,
+      "rho": 0.0,
+      "shared_true": 0,
+      "n_src_edges_learned": 17,
+      "src_learn_time": 11.6,
+      "prior": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 33
+      },
+      "scratch": {
+        "precision": 0.08196721311475409,
+        "recall": 0.3125,
+        "f1": 0.12987012987012986,
+        "shd": 67,
+        "tp": 5,
+        "n_edges": 61,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 12.4
+      },
+      "warm": {
+        "precision": 0.13333333333333333,
+        "recall": 0.5,
+        "f1": 0.2105263157894737,
+        "shd": 60,
+        "tp": 8,
+        "n_edges": 60,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 12.5
+      },
+      "shuffled": {
+        "precision": 0.14285714285714285,
+        "recall": 0.5,
+        "f1": 0.22222222222222224,
+        "shd": 56,
+        "tp": 8,
+        "n_edges": 56,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 11.2
+      },
+      "oracle": {
+        "precision": 0.16363636363636364,
+        "recall": 0.5625,
+        "f1": 0.2535211267605634,
+        "shd": 53,
+        "tp": 9,
+        "n_edges": 55,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.6
+      },
+      "tgtcorr": {
+        "precision": 0.10344827586206896,
+        "recall": 0.375,
+        "f1": 0.16216216216216217,
+        "shd": 62,
+        "tp": 6,
+        "n_edges": 58,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.6
+      },
+      "tgtreg": {
+        "precision": 0.13793103448275862,
+        "recall": 0.5,
+        "f1": 0.2162162162162162,
+        "shd": 58,
+        "tp": 8,
+        "n_edges": 58,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "degmatch": {
+        "precision": 0.14035087719298245,
+        "recall": 0.5,
+        "f1": 0.2191780821917808,
+        "shd": 57,
+        "tp": 8,
+        "n_edges": 57,
+        "retention_pct": 0.0,
+        "harm": 0,
+        "time": 10.4
+      },
+      "pool": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 33,
+        "tp": 0,
+        "n_edges": 17,
+        "retention_pct": 64.70588235294117,
+        "harm": 11,
+        "retention_is_tautological": true,
+        "time": 9.7
+      }
+    },
+    {
+      "seed": 42,
+      "rho": 0.25,
+      "shared_true": 4,
+      "n_src_edges_learned": 16,
+      "src_learn_time": 10.4,
+      "prior": {
+        "precision": 0.125,
+        "recall": 0.125,
+        "f1": 0.125,
+        "shd": 28
+      },
+      "scratch": {
+        "precision": 0.1791044776119403,
+        "recall": 0.75,
+        "f1": 0.2891566265060241,
+        "shd": 59,
+        "tp": 12,
+        "n_edges": 67,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 11.9
+      },
+      "warm": {
+        "precision": 0.16176470588235295,
+        "recall": 0.6875,
+        "f1": 0.2619047619047619,
+        "shd": 62,
+        "tp": 11,
+        "n_edges": 68,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 13.0
+      },
+      "shuffled": {
+        "precision": 0.171875,
+        "recall": 0.6875,
+        "f1": 0.275,
+        "shd": 58,
+        "tp": 11,
+        "n_edges": 64,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 12.8
+      },
+      "oracle": {
+        "precision": 0.17647058823529413,
+        "recall": 0.75,
+        "f1": 0.2857142857142857,
+        "shd": 60,
+        "tp": 12,
+        "n_edges": 68,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 12.6
+      },
+      "tgtcorr": {
+        "precision": 0.16393442622950818,
+        "recall": 0.625,
+        "f1": 0.2597402597402597,
+        "shd": 57,
+        "tp": 10,
+        "n_edges": 61,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 12.6
+      },
+      "tgtreg": {
+        "precision": 0.14516129032258066,
+        "recall": 0.5625,
+        "f1": 0.2307692307692308,
+        "shd": 60,
+        "tp": 9,
+        "n_edges": 62,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 12.6
+      },
+      "degmatch": {
+        "precision": 0.16417910447761194,
+        "recall": 0.6875,
+        "f1": 0.26506024096385544,
+        "shd": 61,
+        "tp": 11,
+        "n_edges": 67,
+        "retention_pct": 12.5,
+        "harm": 1,
+        "time": 12.6
+      },
+      "pool": {
+        "precision": 0.125,
+        "recall": 0.125,
+        "f1": 0.125,
+        "shd": 28,
+        "tp": 2,
+        "n_edges": 16,
+        "retention_pct": 93.75,
+        "harm": 13,
+        "retention_is_tautological": true,
+        "time": 12.0
+      }
+    },
+    {
+      "seed": 123,
+      "rho": 0.25,
+      "shared_true": 4,
+      "n_src_edges_learned": 18,
+      "src_learn_time": 12.1,
+      "prior": {
+        "precision": 0.05555555555555555,
+        "recall": 0.0625,
+        "f1": 0.058823529411764705,
+        "shd": 32
+      },
+      "scratch": {
+        "precision": 0.13559322033898305,
+        "recall": 0.5,
+        "f1": 0.21333333333333335,
+        "shd": 59,
+        "tp": 8,
+        "n_edges": 59,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 12.9
+      },
+      "warm": {
+        "precision": 0.13793103448275862,
+        "recall": 0.5,
+        "f1": 0.2162162162162162,
+        "shd": 58,
+        "tp": 8,
+        "n_edges": 58,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 13.2
+      },
+      "shuffled": {
+        "precision": 0.13793103448275862,
+        "recall": 0.5,
+        "f1": 0.2162162162162162,
+        "shd": 58,
+        "tp": 8,
+        "n_edges": 58,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 13.6
+      },
+      "oracle": {
+        "precision": 0.171875,
+        "recall": 0.6875,
+        "f1": 0.275,
+        "shd": 58,
+        "tp": 11,
+        "n_edges": 64,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 14.6
+      },
+      "tgtcorr": {
+        "precision": 0.15625,
+        "recall": 0.625,
+        "f1": 0.25,
+        "shd": 60,
+        "tp": 10,
+        "n_edges": 64,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 14.8
+      },
+      "tgtreg": {
+        "precision": 0.140625,
+        "recall": 0.5625,
+        "f1": 0.225,
+        "shd": 62,
+        "tp": 9,
+        "n_edges": 64,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 13.2
+      },
+      "degmatch": {
+        "precision": 0.13114754098360656,
+        "recall": 0.5,
+        "f1": 0.20779220779220778,
+        "shd": 61,
+        "tp": 8,
+        "n_edges": 61,
+        "retention_pct": 11.11111111111111,
+        "harm": 1,
+        "time": 13.2
+      },
+      "pool": {
+        "precision": 0.05555555555555555,
+        "recall": 0.0625,
+        "f1": 0.058823529411764705,
+        "shd": 32,
+        "tp": 1,
+        "n_edges": 18,
+        "retention_pct": 83.33333333333333,
+        "harm": 15,
+        "retention_is_tautological": true,
+        "time": 12.4
+      }
+    },
+    {
+      "seed": 456,
+      "rho": 0.25,
+      "shared_true": 4,
+      "n_src_edges_learned": 20,
+      "src_learn_time": 12.7,
+      "prior": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "shd": 36
+      },
+      "scratch": {
+        "precision": 0.08196721311475409,
+        "recall": 0.3125,
+        "f1": 0.12987012987012986,
+        "shd": 67,
+        "tp": 5,
+        "n_edges": 61,
+        "retention_pct": 10.0,
+        "harm": 2,
+        "time": 12.9
+      },
+      "warm": {
+        "precision": 0.07142857142857142,
+        "recall": 0.25,
+        "f1": 0.11111111111111112,
+        "shd": 64,
+        "tp": 4,
+        "n_edges": 56,
+        "retention_pct": 20.0,
+        "harm": 4,
+        "time": 13.4
+      },
+      "shuffled": {
+        "precision": 0.14285714285714285,
+        "recall": 0.5,
+        "f1": 0.22222222222222224,
+        "shd": 56,
+        "tp": 8,
+        "n_edges": 56,
+        "retention_pct": 5.0,
+        "harm": 1,
+        "time": 13.0
+      },
+      "oracle": {
+        "precision": 0.16363636363636364,
+        "recall": 0.5625,
+        "f1": 0.2535211267605634,
+        "shd": 53,
+        "tp": 9,
+        "n_edges": 55,
+        "retention_pct": 5.0,
+        "harm": 1,
+        "time": 12.8
+      },
+      "tgtcorr": {
+        "precision": 0.1111111111111111,
+        "recall": 0.375,
+        "f1": 0.17142857142857143,
+        "shd": 58,
+        "tp": 6,
+        "n_edges": 54,
+        "retention_pct": 15.0,
+        "harm": 3,
+        "time": 13.0
+      },
+      "tgtreg": {
+        "precision": 0.13114754098360656,
+        "recall": 0.5,
+        "f1": 0.20779220779220778,
+        "shd": 61,
+        "tp": 8,
+        "n_edges": 61,
+        "retention_pct": 5.0,
+        "harm": 1,
+        "time": 12.9
+      },
+      "degmatch": {
+        "precision": 0.14035087719298245,
+        "recall": 0.5,
+        "f1": 0.2191780821917808,
+        "shd": 57,
+        "tp": 8,
+        "n_edges": 57,
+        "retention_pct": 5.0,
+        "harm": 1,
+        "time": 13.1
+      },
+      "pool": {
+        "precision": 0.1,
+        "recall": 0.125,
+        "f1": 0.11111111111111112,
+        "shd": 32,
+        "tp": 2,
+        "n_edges": 20,
+        "retention_pct": 75.0,
+        "harm": 15,
+        "retention_is_tautological": true,
+        "time": 14.6
+      }
+    },
+    {
+      "seed": 42,
+      "rho": 0.5,
+      "shared_true": 8,
+      "n_src_edges_learned": 17,
+      "src_learn_time": 12.6,
+      "prior": {
+        "precision": 0.23529411764705882,
+        "recall": 0.25,
+        "f1": 0.24242424242424243,
+        "shd": 25
+      },
+      "scratch": {
+        "precision": 0.1791044776119403,
+        "recall": 0.75,
+        "f1": 0.2891566265060241,
+        "shd": 59,
+        "tp": 12,
+        "n_edges": 67,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 12.7
+      },
+      "warm": {
+        "precision": 0.171875,
+        "recall": 0.6875,
+        "f1": 0.275,
+        "shd": 58,
+        "tp": 11,
+        "n_edges": 64,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 13.0
+      },
+      "shuffled": {
+        "precision": 0.16417910447761194,
+        "recall": 0.6875,
+        "f1": 0.26506024096385544,
+        "shd": 61,
+        "tp": 11,
+        "n_edges": 67,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 12.6
+      },
+      "oracle": {
+        "precision": 0.17647058823529413,
+        "recall": 0.75,
+        "f1": 0.2857142857142857,
+        "shd": 60,
+        "tp": 12,
+        "n_edges": 68,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 13.6
+      },
+      "tgtcorr": {
+        "precision": 0.16393442622950818,
+        "recall": 0.625,
+        "f1": 0.2597402597402597,
+        "shd": 57,
+        "tp": 10,
+        "n_edges": 61,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 14.3
+      },
+      "tgtreg": {
+        "precision": 0.15,
+        "recall": 0.5625,
+        "f1": 0.23684210526315785,
+        "shd": 58,
+        "tp": 9,
+        "n_edges": 60,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 14.4
+      },
+      "degmatch": {
+        "precision": 0.1746031746031746,
+        "recall": 0.6875,
+        "f1": 0.27848101265822783,
+        "shd": 57,
+        "tp": 11,
+        "n_edges": 63,
+        "retention_pct": 11.764705882352942,
+        "harm": 0,
+        "time": 14.7
+      },
+      "pool": {
+        "precision": 0.29411764705882354,
+        "recall": 0.3125,
+        "f1": 0.30303030303030304,
+        "shd": 23,
+        "tp": 5,
+        "n_edges": 17,
+        "retention_pct": 58.8235294117647,
+        "harm": 7,
+        "retention_is_tautological": true,
+        "time": 12.4
+      }
+    },
+    {
+      "seed": 123,
+      "rho": 0.5,
+      "shared_true": 8,
+      "n_src_edges_learned": 17,
+      "src_learn_time": 12.9,
+      "prior": {
+        "precision": 0.35294117647058826,
+        "recall": 0.375,
+        "f1": 0.3636363636363636,
+        "shd": 21
+      },
+      "scratch": {
+        "precision": 0.13559322033898305,
+        "recall": 0.5,
+        "f1": 0.21333333333333335,
+        "shd": 59,
+        "tp": 8,
+        "n_edges": 59,
+        "retention_pct": 17.647058823529413,
+        "harm": 1,
+        "time": 14.4
+      },
+      "warm": {
+        "precision": 0.12280701754385964,
+        "recall": 0.4375,
+        "f1": 0.19178082191780824,
+        "shd": 59,
+        "tp": 7,
+        "n_edges": 57,
+        "retention_pct": 35.294117647058826,
+        "harm": 3,
+        "time": 15.0
+      },
+      "shuffled": {
+        "precision": 0.13559322033898305,
+        "recall": 0.5,
+        "f1": 0.21333333333333335,
+        "shd": 59,
+        "tp": 8,
+        "n_edges": 59,
+        "retention_pct": 17.647058823529413,
+        "harm": 1,
+        "time": 14.8
+      },
+      "oracle": {
+        "precision": 0.171875,
+        "recall": 0.6875,
+        "f1": 0.275,
+        "shd": 58,
+        "tp": 11,
+        "n_edges": 64,
+        "retention_pct": 29.41176470588235,
+        "harm": 1,
+        "time": 14.9
+      },
+      "tgtcorr": {
+        "precision": 0.15151515151515152,
+        "recall": 0.625,
+        "f1": 0.24390243902439024,
+        "shd": 62,
+        "tp": 10,
+        "n_edges": 66,
+        "retention_pct": 23.529411764705884,
+        "harm": 1,
+        "time": 14.9
+      },
+      "tgtreg": {
+        "precision": 0.140625,
+        "recall": 0.5625,
+        "f1": 0.225,
+        "shd": 62,
+        "tp": 9,
+        "n_edges": 64,
+        "retention_pct": 23.529411764705884,
+        "harm": 1,
+        "time": 15.0
+      },
+      "degmatch": {
+        "precision": 0.12903225806451613,
+        "recall": 0.5,
+        "f1": 0.20512820512820512,
+        "shd": 62,
+        "tp": 8,
+        "n_edges": 62,
+        "retention_pct": 17.647058823529413,
+        "harm": 1,
+        "time": 14.4
+      },
+      "pool": {
+        "precision": 0.29411764705882354,
+        "recall": 0.3125,
+        "f1": 0.30303030303030304,
+        "shd": 23,
+        "tp": 5,
+        "n_edges": 17,
+        "retention_pct": 88.23529411764706,
+        "harm": 10,
+        "retention_is_tautological": true,
+        "time": 13.5
+      }
+    },
+    {
+      "seed": 456,
+      "rho": 0.5,
+      "shared_true": 8,
+      "n_src_edges_learned": 16,
+      "src_learn_time": 13.8,
+      "prior": {
+        "precision": 0.0625,
+        "recall": 0.0625,
+        "f1": 0.0625,
+        "shd": 30
+      },
+      "scratch": {
+        "precision": 0.12280701754385964,
+        "recall": 0.4375,
+        "f1": 0.19178082191780824,
+        "shd": 59,
+        "tp": 7,
+        "n_edges": 57,
+        "retention_pct": 31.25,
+        "harm": 4,
+        "time": 14.3
+      },
+      "warm": {
+        "precision": 0.12727272727272726,
+        "recall": 0.4375,
+        "f1": 0.1971830985915493,
+        "shd": 57,
+        "tp": 7,
+        "n_edges": 55,
+        "retention_pct": 31.25,
+        "harm": 4,
+        "time": 14.3
+      },
+      "shuffled": {
+        "precision": 0.125,
+        "recall": 0.4375,
+        "f1": 0.19444444444444445,
+        "shd": 58,
+        "tp": 7,
+        "n_edges": 56,
+        "retention_pct": 31.25,
+        "harm": 4,
+        "time": 14.1
+      },
+      "oracle": {
+        "precision": 0.13793103448275862,
+        "recall": 0.5,
+        "f1": 0.2162162162162162,
+        "shd": 58,
+        "tp": 8,
+        "n_edges": 58,
+        "retention_pct": 25.0,
+        "harm": 3,
+        "time": 14.3
+      },
+      "tgtcorr": {
+        "precision": 0.13333333333333333,
+        "recall": 0.5,
+        "f1": 0.2105263157894737,
+        "shd": 60,
+        "tp": 8,
+        "n_edges": 60,
+        "retention_pct": 25.0,
+        "harm": 3,
+        "time": 14.2
+      },
+      "tgtreg": {
+        "precision": 0.13114754098360656,
+        "recall": 0.5,
+        "f1": 0.20779220779220778,
+        "shd": 61,
+        "tp": 8,
+        "n_edges": 61,
+        "retention_pct": 25.0,
+        "harm": 3,
+        "time": 14.3
+      },
+      "degmatch": {
+        "precision": 0.12727272727272726,
+        "recall": 0.4375,
+        "f1": 0.1971830985915493,
+        "shd": 57,
+        "tp": 7,
+        "n_edges": 55,
+        "retention_pct": 31.25,
+        "harm": 4,
+        "time": 14.2
+      },
+      "pool": {
+        "precision": 0.125,
+        "recall": 0.125,
+        "f1": 0.125,
+        "shd": 28,
+        "tp": 2,
+        "n_edges": 16,
+        "retention_pct": 81.25,
+        "harm": 12,
+        "retention_is_tautological": true,
+        "time": 13.6
+      }
+    },
+    {
+      "seed": 42,
+      "rho": 0.75,
+      "shared_true": 12,
+      "n_src_edges_learned": 16,
+      "src_learn_time": 13.6,
+      "prior": {
+        "precision": 0.3125,
+        "recall": 0.3125,
+        "f1": 0.3125,
+        "shd": 22
+      },
+      "scratch": {
+        "precision": 0.08333333333333333,
+        "recall": 0.4375,
+        "f1": 0.13999999999999999,
+        "shd": 86,
+        "tp": 7,
+        "n_edges": 84,
+        "retention_pct": 50.0,
+        "harm": 5,
+        "time": 14.5
+      },
+      "warm": {
+        "precision": 0.08433734939759036,
+        "recall": 0.4375,
+        "f1": 0.14141414141414144,
+        "shd": 85,
+        "tp": 7,
+        "n_edges": 83,
+        "retention_pct": 50.0,
+        "harm": 5,
+        "time": 14.3
+      },
+      "shuffled": {
+        "precision": 0.08641975308641975,
+        "recall": 0.4375,
+        "f1": 0.1443298969072165,
+        "shd": 83,
+        "tp": 7,
+        "n_edges": 81,
+        "retention_pct": 50.0,
+        "harm": 5,
+        "time": 13.2
+      },
+      "oracle": {
+        "precision": 0.10112359550561797,
+        "recall": 0.5625,
+        "f1": 0.17142857142857143,
+        "shd": 87,
+        "tp": 9,
+        "n_edges": 89,
+        "retention_pct": 43.75,
+        "harm": 4,
+        "time": 13.0
+      },
+      "tgtcorr": {
+        "precision": 0.06329113924050633,
+        "recall": 0.3125,
+        "f1": 0.10526315789473685,
+        "shd": 85,
+        "tp": 5,
+        "n_edges": 79,
+        "retention_pct": 43.75,
+        "harm": 5,
+        "time": 13.3
+      },
+      "tgtreg": {
+        "precision": 0.08235294117647059,
+        "recall": 0.4375,
+        "f1": 0.1386138613861386,
+        "shd": 87,
+        "tp": 7,
+        "n_edges": 85,
+        "retention_pct": 50.0,
+        "harm": 5,
+        "time": 14.1
+      },
+      "degmatch": {
+        "precision": 0.08536585365853659,
+        "recall": 0.4375,
+        "f1": 0.14285714285714288,
+        "shd": 84,
+        "tp": 7,
+        "n_edges": 82,
+        "retention_pct": 50.0,
+        "harm": 5,
+        "time": 14.0
+      },
+      "pool": {
+        "precision": 0.4375,
+        "recall": 0.4375,
+        "f1": 0.4375,
+        "shd": 18,
+        "tp": 7,
+        "n_edges": 16,
+        "retention_pct": 75.0,
+        "harm": 8,
+        "retention_is_tautological": true,
+        "time": 13.5
+      }
+    },
+    {
+      "seed": 123,
+      "rho": 0.75,
+      "shared_true": 12,
+      "n_src_edges_learned": 17,
+      "src_learn_time": 13.4,
+      "prior": {
+        "precision": 0.4117647058823529,
+        "recall": 0.4375,
+        "f1": 0.42424242424242425,
+        "shd": 19
+      },
+      "scratch": {
+        "precision": 0.10344827586206896,
+        "recall": 0.375,
+        "f1": 0.16216216216216217,
+        "shd": 62,
+        "tp": 6,
+        "n_edges": 58,
+        "retention_pct": 41.1764705882353,
+        "harm": 3,
+        "time": 14.1
+      },
+      "warm": {
+        "precision": 0.08620689655172414,
+        "recall": 0.3125,
+        "f1": 0.13513513513513514,
+        "shd": 64,
+        "tp": 5,
+        "n_edges": 58,
+        "retention_pct": 47.05882352941177,
+        "harm": 4,
+        "time": 14.1
+      },
+      "shuffled": {
+        "precision": 0.09375,
+        "recall": 0.375,
+        "f1": 0.15,
+        "shd": 68,
+        "tp": 6,
+        "n_edges": 64,
+        "retention_pct": 41.1764705882353,
+        "harm": 3,
+        "time": 14.1
+      },
+      "oracle": {
+        "precision": 0.15873015873015872,
+        "recall": 0.625,
+        "f1": 0.2531645569620253,
+        "shd": 59,
+        "tp": 10,
+        "n_edges": 63,
+        "retention_pct": 41.1764705882353,
+        "harm": 2,
+        "time": 13.7
+      },
+      "tgtcorr": {
+        "precision": 0.11594202898550725,
+        "recall": 0.5,
+        "f1": 0.18823529411764708,
+        "shd": 69,
+        "tp": 8,
+        "n_edges": 69,
+        "retention_pct": 47.05882352941177,
+        "harm": 3,
+        "time": 13.1
+      },
+      "tgtreg": {
+        "precision": 0.10344827586206896,
+        "recall": 0.375,
+        "f1": 0.16216216216216217,
+        "shd": 62,
+        "tp": 6,
+        "n_edges": 58,
+        "retention_pct": 41.1764705882353,
+        "harm": 3,
+        "time": 13.0
+      },
+      "degmatch": {
+        "precision": 0.1,
+        "recall": 0.375,
+        "f1": 0.15789473684210528,
+        "shd": 64,
+        "tp": 6,
+        "n_edges": 60,
+        "retention_pct": 41.1764705882353,
+        "harm": 3,
+        "time": 11.5
+      },
+      "pool": {
+        "precision": 0.29411764705882354,
+        "recall": 0.3125,
+        "f1": 0.30303030303030304,
+        "shd": 23,
+        "tp": 5,
+        "n_edges": 17,
+        "retention_pct": 82.3529411764706,
+        "harm": 9,
+        "retention_is_tautological": true,
+        "time": 11.1
+      }
+    },
+    {
+      "seed": 456,
+      "rho": 0.75,
+      "shared_true": 12,
+      "n_src_edges_learned": 16,
+      "src_learn_time": 12.2,
+      "prior": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "shd": 16
+      },
+      "scratch": {
+        "precision": 0.12280701754385964,
+        "recall": 0.4375,
+        "f1": 0.19178082191780824,
+        "shd": 59,
+        "tp": 7,
+        "n_edges": 57,
+        "retention_pct": 43.75,
+        "harm": 2,
+        "time": 12.6
+      },
+      "warm": {
+        "precision": 0.16,
+        "recall": 0.5,
+        "f1": 0.24242424242424243,
+        "shd": 50,
+        "tp": 8,
+        "n_edges": 50,
+        "retention_pct": 50.0,
+        "harm": 2,
+        "time": 12.5
+      },
+      "shuffled": {
+        "precision": 0.125,
+        "recall": 0.4375,
+        "f1": 0.19444444444444445,
+        "shd": 58,
+        "tp": 7,
+        "n_edges": 56,
+        "retention_pct": 43.75,
+        "harm": 2,
+        "time": 12.3
+      },
+      "oracle": {
+        "precision": 0.21568627450980393,
+        "recall": 0.6875,
+        "f1": 0.3283582089552239,
+        "shd": 45,
+        "tp": 11,
+        "n_edges": 51,
+        "retention_pct": 43.75,
+        "harm": 1,
+        "time": 12.4
+      },
+      "tgtcorr": {
+        "precision": 0.18518518518518517,
+        "recall": 0.625,
+        "f1": 0.2857142857142857,
+        "shd": 50,
+        "tp": 10,
+        "n_edges": 54,
+        "retention_pct": 37.5,
+        "harm": 1,
+        "time": 12.6
+      },
+      "tgtreg": {
+        "precision": 0.18867924528301888,
+        "recall": 0.625,
+        "f1": 0.2898550724637681,
+        "shd": 49,
+        "tp": 10,
+        "n_edges": 53,
+        "retention_pct": 37.5,
+        "harm": 1,
+        "time": 12.5
+      },
+      "degmatch": {
+        "precision": 0.12962962962962962,
+        "recall": 0.4375,
+        "f1": 0.19999999999999998,
+        "shd": 56,
+        "tp": 7,
+        "n_edges": 54,
+        "retention_pct": 43.75,
+        "harm": 2,
+        "time": 12.7
+      },
+      "pool": {
+        "precision": 0.5625,
+        "recall": 0.5625,
+        "f1": 0.5625,
+        "shd": 14,
+        "tp": 9,
+        "n_edges": 16,
+        "retention_pct": 87.5,
+        "harm": 6,
+        "retention_is_tautological": true,
+        "time": 12.4
+      }
+    },
+    {
+      "seed": 123,
+      "rho": 1.0,
+      "shared_true": 16,
+      "n_src_edges_learned": 18,
+      "src_learn_time": 12.3,
+      "prior": {
+        "precision": 0.5,
+        "recall": 0.5625,
+        "f1": 0.5294117647058824,
+        "shd": 16
+      },
+      "scratch": {
+        "precision": 0.10344827586206896,
+        "recall": 0.375,
+        "f1": 0.16216216216216217,
+        "shd": 62,
+        "tp": 6,
+        "n_edges": 58,
+        "retention_pct": 66.66666666666667,
+        "harm": 7,
+        "time": 13.5
+      },
+      "warm": {
+        "precision": 0.11290322580645161,
+        "recall": 0.4375,
+        "f1": 0.1794871794871795,
+        "shd": 64,
+        "tp": 7,
+        "n_edges": 62,
+        "retention_pct": 83.33333333333333,
+        "harm": 8,
+        "time": 13.5
+      },
+      "shuffled": {
+        "precision": 0.0967741935483871,
+        "recall": 0.375,
+        "f1": 0.15384615384615383,
+        "shd": 66,
+        "tp": 6,
+        "n_edges": 62,
+        "retention_pct": 66.66666666666667,
+        "harm": 7,
+        "time": 13.4
+      },
+      "oracle": {
+        "precision": 0.15873015873015872,
+        "recall": 0.625,
+        "f1": 0.2531645569620253,
+        "shd": 59,
+        "tp": 10,
+        "n_edges": 63,
+        "retention_pct": 77.77777777777777,
+        "harm": 6,
+        "time": 13.8
+      },
+      "tgtcorr": {
+        "precision": 0.1076923076923077,
+        "recall": 0.4375,
+        "f1": 0.1728395061728395,
+        "shd": 67,
+        "tp": 7,
+        "n_edges": 65,
+        "retention_pct": 61.111111111111114,
+        "harm": 6,
+        "time": 13.7
+      },
+      "tgtreg": {
+        "precision": 0.10344827586206896,
+        "recall": 0.375,
+        "f1": 0.16216216216216217,
+        "shd": 62,
+        "tp": 6,
+        "n_edges": 58,
+        "retention_pct": 66.66666666666667,
+        "harm": 7,
+        "time": 13.8
+      },
+      "degmatch": {
+        "precision": 0.09836065573770492,
+        "recall": 0.375,
+        "f1": 0.15584415584415584,
+        "shd": 65,
+        "tp": 6,
+        "n_edges": 61,
+        "retention_pct": 66.66666666666667,
+        "harm": 7,
+        "time": 13.6
+      },
+      "pool": {
+        "precision": 0.4444444444444444,
+        "recall": 0.5,
+        "f1": 0.47058823529411764,
+        "shd": 18,
+        "tp": 8,
+        "n_edges": 18,
+        "retention_pct": 83.33333333333333,
+        "harm": 8,
+        "retention_is_tautological": true,
+        "time": 13.1
+      }
+    },
+    {
+      "seed": 456,
+      "rho": 1.0,
+      "shared_true": 16,
+      "n_src_edges_learned": 17,
+      "src_learn_time": 13.0,
+      "prior": {
+        "precision": 0.5294117647058824,
+        "recall": 0.5625,
+        "f1": 0.5454545454545455,
+        "shd": 15
+      },
+      "scratch": {
+        "precision": 0.2553191489361702,
+        "recall": 0.75,
+        "f1": 0.380952380952381,
+        "shd": 39,
+        "tp": 12,
+        "n_edges": 47,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 15.2
+      },
+      "warm": {
+        "precision": 0.26666666666666666,
+        "recall": 0.75,
+        "f1": 0.3934426229508197,
+        "shd": 37,
+        "tp": 12,
+        "n_edges": 45,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 16.1
+      },
+      "shuffled": {
+        "precision": 0.24,
+        "recall": 0.75,
+        "f1": 0.36363636363636365,
+        "shd": 42,
+        "tp": 12,
+        "n_edges": 50,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 16.1
+      },
+      "oracle": {
+        "precision": 0.25,
+        "recall": 0.75,
+        "f1": 0.375,
+        "shd": 40,
+        "tp": 12,
+        "n_edges": 48,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 15.8
+      },
+      "tgtcorr": {
+        "precision": 0.25,
+        "recall": 0.75,
+        "f1": 0.375,
+        "shd": 40,
+        "tp": 12,
+        "n_edges": 48,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 15.9
+      },
+      "tgtreg": {
+        "precision": 0.2553191489361702,
+        "recall": 0.75,
+        "f1": 0.380952380952381,
+        "shd": 39,
+        "tp": 12,
+        "n_edges": 47,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 15.7
+      },
+      "degmatch": {
+        "precision": 0.26666666666666666,
+        "recall": 0.75,
+        "f1": 0.3934426229508197,
+        "shd": 37,
+        "tp": 12,
+        "n_edges": 45,
+        "retention_pct": 52.94117647058823,
+        "harm": 2,
+        "time": 16.0
+      },
+      "pool": {
+        "precision": 0.4117647058823529,
+        "recall": 0.4375,
+        "f1": 0.42424242424242425,
+        "shd": 19,
+        "tp": 7,
+        "n_edges": 17,
+        "retention_pct": 58.8235294117647,
+        "harm": 5,
+        "retention_is_tautological": true,
+        "time": 15.3
+      }
+    }
+  ]
+}

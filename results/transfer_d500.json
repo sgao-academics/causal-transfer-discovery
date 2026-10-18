@@ -1,0 +1,15 @@
+{
+  "d": 500,
+  "src_edges": 85,
+  "scratch_edges": 111,
+  "transfer_edges": 101,
+  "delta": -10,
+  "r_scratch": 0.20114632209241246,
+  "r_transfer": 0.3002162725977267,
+  "src_scratch_overlap": 24,
+  "src_transfer_overlap": 48,
+  "scratch_transfer_overlap": 58,
+  "src_iters": 30,
+  "scratch_iters": 30,
+  "transfer_iters": 30
+}
