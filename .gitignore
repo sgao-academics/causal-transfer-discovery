@@ -9,10 +9,3 @@
 *.synctex.gz
 __pycache__/
 *.pyc
-
-# large intermediates regenerated from the archived results
-results/cache/*.npy
-!results/cache/src_d454_s42.npy
-!results/cache/warm_d454_s42.npy
-!results/cache/scratch_d454_s42.npy
-results/d5000_cache/*.npy
