@@ -85,9 +85,11 @@ pip install -r requirements.txt
 │   │   ├── load_tcga_safe.py           # expression-only TCGA loader (whitelist)
 │   │   ├── kegg_enrichment.py          # KEGG enrichment (Section S4)
 │   │   ├── validate_string.py          # STRING/BioGRID validation (Section S4)
+│   │   ├── run_multi_target.py         # Six-organ target sweep, d=454 (Section S12)
 │   │   └── ...
 │   ├── run_d5000_multiseed.py          # Genome-scale (d=5000) transfer, 3 seeds
 │   ├── run_scratch_multiseed.py        # Genome-scale scratch baseline, 3 seeds
+│   ├── run_d5000_multitarget.py        # Five-organ target sweep, d=5000 (Section S12)
 │   ├── stratification_tau03.py         # Edge-strength stratification (Table 3 / S3)
 │   └── fix_depmap_edges.py             # Regenerates the DepMap retained-edge list
 ├── results/
@@ -108,6 +110,8 @@ pip install -r requirements.txt
 │   ├── full_experiment.json            # DepMap cross-domain data
 │   ├── external_validation.json        # STRING multi-threshold precision
 │   ├── d5000_checkpoints/              # Per-outer checkpoints (JSON only)
+│   ├── multi_target_d454.json          # Six-organ sweep, d=454, 3 seeds (Table S13)
+│   ├── d5000_multi/                    # Five-organ sweep, d=5000, seed 42 (Table S14)
 │   └── cache/                          # d=454 weight matrices used for figures
 └── data/                               # Place TCGA data here (see below)
 ```
@@ -175,7 +179,12 @@ Stage 5: pooling, target-sample size, ten seeds (S9-S11)
   gain at n=1218                             +21.2 (paper +21.2) [OK]
   ten seeds, both dimensions                 20/20 [OK]
 
-ALL 71 CHECKS PASSED
+Stage 6: multi-organ extension (S12)
+  S13 <organ> mean gain                      23.2 / 17.2 / 21.0 / 25.3 / 27.8 / 20.3 [OK]
+  cells with positive gain                   18/18 [OK]
+  S14 <organ> source/scratch/warm/gain       5 organs x 4 values [OK]
+
+ALL 98 CHECKS PASSED
 ```
 
 The `duplicate warm entries across seeds` counter is the direct test that no
@@ -200,6 +209,8 @@ many are byte-identical. It must be zero.
 | Ten-seed sweep | 10/10 seeds at d=454 and at d=889 |
 | **Genome-scale (d=5000), seed-matched** | **81.8 ± 0.4 % vs 45.4 ± 2.9 % (+36.4 pp, 3 seeds)** |
 | Genome-scale, fixed 634-edge reference | 65.3 ± 0.7 % vs 38.1 ± 1.4 % (+27.2 pp) |
+| Six target organs (d=454, 3 seeds) | 18/18 cells positive; Δ = +16.7 to +30.2 pp (mean +22.5 pp; sign test p = 3.8 × 10⁻⁶) |
+| Five further targets (d=5000, seed 42) | 5/5 positive; Δ = +32.5 to +48.4 pp |
 | Zero sample overlap (TCGA-BRCA) | verified |
 
 ### Genome-scale retention has two denominators — do not mix them
@@ -213,6 +224,34 @@ many are byte-identical. It must be zero.
   reference by only 77–79 %, and 0.78 × 0.82 ≈ 0.65.
 
 Both denominators are reported in Supplementary Section S5.
+
+### Multi-organ extension (Section S12)
+
+Every main-text experiment uses BRCA as the target. Section S12 removes that
+restriction: for each target organ the source graph is **re-learned from the remaining
+cohorts**, because reusing the archived non-BRCA graph would put the target's own
+samples into its prior.
+
+```bash
+python scripts/experiments/run_multi_target.py --organs KIRC,LUAD,THCA,LUSC,LIHC --seeds 42,123,456
+python scripts/run_d5000_multitarget.py --organ KIRC          # ~5 h per organ
+```
+
+Six organs × three seeds at `d = 454` give 18/18 positive cells (Δ = +16.7 to
++30.2 pp). At `d = 5000`, five further organs are positive too (+32.5 to +48.4 pp),
+but at one seed each, so those rows are labelled exploratory.
+
+**Two things to know before quoting these numbers.**
+
+1. *The BRCA row of Table S13 does not coincide with Table 2* (37.2 / 60.4 versus
+   33.4 / 55.1). Re-running the arms on the archived source graphs reproduces the warm
+   column exactly — 56.8, 53.4, 55.1 % for seeds 42/123/456 — so the difference is the
+   source-graph draw, not the implementation. The scratch arm lands one to three edges
+   away because it starts from a random initialisation taken at a different point in
+   the RNG stream.
+2. *At `d = 454` the retention level carries a source-graph-draw component of about
+   ±5 pp*, while Δ is stable to about 3 pp. Compare Δ across organs; do not rank them.
+   At `d = 5000` the component is negligible (81.8 ± 0.4 % over three seeds).
 
 ## Figures
 

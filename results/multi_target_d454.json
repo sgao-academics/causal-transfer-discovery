@@ -1,0 +1,477 @@
+{
+  "meta": {
+    "d_actual": 454,
+    "tau": 0.3,
+    "lam": 0.01,
+    "max_outer": 35,
+    "protocol": "leave-one-organ-out"
+  },
+  "BRCA_s42": {
+    "n_target": 1218,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 97,
+      "overlap": 22,
+      "retention_pct": 30.1,
+      "pearson_r": 0.2008,
+      "h": 1.936566218319058e-05,
+      "time": 164.606520652771,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 97,
+      "overlap": 40,
+      "retention_pct": 54.8,
+      "pearson_r": 0.2785,
+      "h": 1.8935578054879443e-05,
+      "time": 155.48129796981812,
+      "outer": 35
+    },
+    "gain_pp": 24.7,
+    "seed": 42,
+    "wall_s": 546.1
+  },
+  "KIRC_s42": {
+    "n_target": 606,
+    "d_actual": 454,
+    "src_edges": 78,
+    "scratch": {
+      "edges": 117,
+      "overlap": 31,
+      "retention_pct": 39.7,
+      "pearson_r": 0.1917,
+      "h": 1.962570320301893e-05,
+      "time": 150.44148182868958,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 110,
+      "overlap": 44,
+      "retention_pct": 56.4,
+      "pearson_r": 0.2541,
+      "h": 1.9356761526978516e-05,
+      "time": 162.1599292755127,
+      "outer": 35
+    },
+    "gain_pp": 16.7,
+    "seed": 42,
+    "wall_s": 495.4
+  },
+  "BRCA_s123": {
+    "n_target": 1218,
+    "d_actual": 454,
+    "src_edges": 74,
+    "scratch": {
+      "edges": 96,
+      "overlap": 30,
+      "retention_pct": 40.5,
+      "pearson_r": 0.2285,
+      "h": 1.921288685480249e-05,
+      "time": 183.43934988975525,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 101,
+      "overlap": 47,
+      "retention_pct": 63.5,
+      "pearson_r": 0.3071,
+      "h": 1.8822778429239406e-05,
+      "time": 195.0653314590454,
+      "outer": 35
+    },
+    "gain_pp": 23.0,
+    "seed": 123,
+    "wall_s": 580.7
+  },
+  "BRCA_s456": {
+    "n_target": 1218,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 101,
+      "overlap": 30,
+      "retention_pct": 41.1,
+      "pearson_r": 0.2395,
+      "h": 1.9196941593691008e-05,
+      "time": 186.57227325439453,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 97,
+      "overlap": 46,
+      "retention_pct": 63.0,
+      "pearson_r": 0.3005,
+      "h": 1.8155144687170832e-05,
+      "time": 207.46979761123657,
+      "outer": 35
+    },
+    "gain_pp": 21.9,
+    "seed": 456,
+    "wall_s": 592.1
+  },
+  "KIRC_s123": {
+    "n_target": 606,
+    "d_actual": 454,
+    "src_edges": 77,
+    "scratch": {
+      "edges": 118,
+      "overlap": 32,
+      "retention_pct": 41.6,
+      "pearson_r": 0.1998,
+      "h": 1.87977629479974e-05,
+      "time": 186.32577252388,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 112,
+      "overlap": 46,
+      "retention_pct": 59.7,
+      "pearson_r": 0.2604,
+      "h": 1.85782973858295e-05,
+      "time": 193.49486708641052,
+      "outer": 35
+    },
+    "gain_pp": 18.1,
+    "seed": 123,
+    "wall_s": 594.7
+  },
+  "KIRC_s456": {
+    "n_target": 606,
+    "d_actual": 454,
+    "src_edges": 77,
+    "scratch": {
+      "edges": 111,
+      "overlap": 31,
+      "retention_pct": 40.3,
+      "pearson_r": 0.1902,
+      "h": 1.8555581561940926e-05,
+      "time": 161.57187366485596,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 111,
+      "overlap": 44,
+      "retention_pct": 57.1,
+      "pearson_r": 0.2507,
+      "h": 1.85213168606424e-05,
+      "time": 146.9242503643036,
+      "outer": 35
+    },
+    "gain_pp": 16.8,
+    "seed": 456,
+    "wall_s": 507.4
+  },
+  "LUAD_s123": {
+    "n_target": 576,
+    "d_actual": 454,
+    "src_edges": 78,
+    "scratch": {
+      "edges": 97,
+      "overlap": 33,
+      "retention_pct": 42.3,
+      "pearson_r": 0.2326,
+      "h": 2.3261547084985068e-05,
+      "time": 147.1513910293579,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 98,
+      "overlap": 47,
+      "retention_pct": 60.3,
+      "pearson_r": 0.3085,
+      "h": 2.1218637243691774e-05,
+      "time": 147.06651329994202,
+      "outer": 35
+    },
+    "gain_pp": 18.0,
+    "seed": 123,
+    "wall_s": 450.0
+  },
+  "LUAD_s456": {
+    "n_target": 576,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 100,
+      "overlap": 31,
+      "retention_pct": 42.5,
+      "pearson_r": 0.2286,
+      "h": 2.0913597666094574e-05,
+      "time": 146.58678913116455,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 103,
+      "overlap": 48,
+      "retention_pct": 65.8,
+      "pearson_r": 0.3095,
+      "h": 2.178128897867282e-05,
+      "time": 146.86256408691406,
+      "outer": 35
+    },
+    "gain_pp": 23.3,
+    "seed": 456,
+    "wall_s": 448.7
+  },
+  "THCA_s123": {
+    "n_target": 572,
+    "d_actual": 454,
+    "src_edges": 79,
+    "scratch": {
+      "edges": 145,
+      "overlap": 29,
+      "retention_pct": 36.7,
+      "pearson_r": 0.1646,
+      "h": 1.8823587993210822e-05,
+      "time": 149.71019530296326,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 137,
+      "overlap": 48,
+      "retention_pct": 60.8,
+      "pearson_r": 0.2388,
+      "h": 1.795037127294563e-05,
+      "time": 147.08153200149536,
+      "outer": 35
+    },
+    "gain_pp": 24.1,
+    "seed": 123,
+    "wall_s": 452.2
+  },
+  "THCA_s456": {
+    "n_target": 572,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 139,
+      "overlap": 27,
+      "retention_pct": 37.0,
+      "pearson_r": 0.1693,
+      "h": 1.9501110955388867e-05,
+      "time": 146.93295431137085,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 138,
+      "overlap": 45,
+      "retention_pct": 61.6,
+      "pearson_r": 0.2367,
+      "h": 1.8432940862567193e-05,
+      "time": 146.70585227012634,
+      "outer": 35
+    },
+    "gain_pp": 24.6,
+    "seed": 456,
+    "wall_s": 451.2
+  },
+  "LUSC_s123": {
+    "n_target": 553,
+    "d_actual": 454,
+    "src_edges": 74,
+    "scratch": {
+      "edges": 132,
+      "overlap": 33,
+      "retention_pct": 44.6,
+      "pearson_r": 0.2491,
+      "h": 1.8588772718430846e-05,
+      "time": 147.09797024726868,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 125,
+      "overlap": 52,
+      "retention_pct": 70.3,
+      "pearson_r": 0.339,
+      "h": 1.9239154994465935e-05,
+      "time": 147.18625354766846,
+      "outer": 35
+    },
+    "gain_pp": 25.7,
+    "seed": 123,
+    "wall_s": 450.3
+  },
+  "LUSC_s456": {
+    "n_target": 553,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 121,
+      "overlap": 29,
+      "retention_pct": 39.7,
+      "pearson_r": 0.2456,
+      "h": 1.792785377574546e-05,
+      "time": 146.67771530151367,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 122,
+      "overlap": 51,
+      "retention_pct": 69.9,
+      "pearson_r": 0.3421,
+      "h": 1.8836045455827843e-05,
+      "time": 146.92329859733582,
+      "outer": 35
+    },
+    "gain_pp": 30.2,
+    "seed": 456,
+    "wall_s": 449.3
+  },
+  "LIHC_s123": {
+    "n_target": 423,
+    "d_actual": 454,
+    "src_edges": 78,
+    "scratch": {
+      "edges": 99,
+      "overlap": 29,
+      "retention_pct": 37.2,
+      "pearson_r": 0.1514,
+      "h": 2.0806419570362777e-05,
+      "time": 147.22143030166626,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 100,
+      "overlap": 43,
+      "retention_pct": 55.1,
+      "pearson_r": 0.2135,
+      "h": 1.9277863941624673e-05,
+      "time": 146.65751194953918,
+      "outer": 35
+    },
+    "gain_pp": 17.9,
+    "seed": 123,
+    "wall_s": 449.2
+  },
+  "LIHC_s456": {
+    "n_target": 423,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 101,
+      "overlap": 28,
+      "retention_pct": 38.4,
+      "pearson_r": 0.1606,
+      "h": 2.0540121624890162e-05,
+      "time": 149.46353125572205,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 104,
+      "overlap": 42,
+      "retention_pct": 57.5,
+      "pearson_r": 0.2169,
+      "h": 2.0038284560541797e-05,
+      "time": 147.32850217819214,
+      "outer": 35
+    },
+    "gain_pp": 19.1,
+    "seed": 456,
+    "wall_s": 452.2
+  },
+  "LUAD_s42": {
+    "n_target": 576,
+    "d_actual": 454,
+    "src_edges": 74,
+    "scratch": {
+      "edges": 101,
+      "overlap": 34,
+      "retention_pct": 45.9,
+      "pearson_r": 0.2441,
+      "h": 2.1535062046496023e-05,
+      "time": 149.5590159893036,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 101,
+      "overlap": 50,
+      "retention_pct": 67.6,
+      "pearson_r": 0.3185,
+      "h": 2.148315172689763e-05,
+      "time": 149.33252692222595,
+      "outer": 35
+    },
+    "gain_pp": 21.7,
+    "seed": 42,
+    "wall_s": 299.5
+  },
+  "THCA_s42": {
+    "n_target": 572,
+    "d_actual": 454,
+    "src_edges": 77,
+    "scratch": {
+      "edges": 141,
+      "overlap": 24,
+      "retention_pct": 31.2,
+      "pearson_r": 0.152,
+      "h": 1.9013521580291126e-05,
+      "time": 150.75812292099,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 137,
+      "overlap": 45,
+      "retention_pct": 58.4,
+      "pearson_r": 0.2302,
+      "h": 1.8123826123428444e-05,
+      "time": 149.20208835601807,
+      "outer": 35
+    },
+    "gain_pp": 27.2,
+    "seed": 42,
+    "wall_s": 300.7
+  },
+  "LUSC_s42": {
+    "n_target": 553,
+    "d_actual": 454,
+    "src_edges": 73,
+    "scratch": {
+      "edges": 127,
+      "overlap": 33,
+      "retention_pct": 45.2,
+      "pearson_r": 0.25,
+      "h": 1.9157096573962917e-05,
+      "time": 149.49768257141113,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 122,
+      "overlap": 53,
+      "retention_pct": 72.6,
+      "pearson_r": 0.3351,
+      "h": 1.861695000116015e-05,
+      "time": 148.68119955062866,
+      "outer": 35
+    },
+    "gain_pp": 27.4,
+    "seed": 42,
+    "wall_s": 298.9
+  },
+  "LIHC_s42": {
+    "n_target": 423,
+    "d_actual": 454,
+    "src_edges": 75,
+    "scratch": {
+      "edges": 103,
+      "overlap": 23,
+      "retention_pct": 30.7,
+      "pearson_r": 0.1394,
+      "h": 1.9151006540596427e-05,
+      "time": 149.2483193874359,
+      "outer": 35
+    },
+    "warm": {
+      "edges": 99,
+      "overlap": 41,
+      "retention_pct": 54.7,
+      "pearson_r": 0.2081,
+      "h": 2.0673690073635953e-05,
+      "time": 149.70217633247375,
+      "outer": 35
+    },
+    "gain_pp": 24.0,
+    "seed": 42,
+    "wall_s": 299.5
+  }
+}

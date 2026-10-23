@@ -8,10 +8,14 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx,booktabs,longtable}
+\usepackage{float}   % [H] placement: the two multi-organ tables must not drift away
+                     % from the paragraph that introduces them and split it
 \usepackage[super]{cite}
 \usepackage[hidelinks]{hyperref}
+\usepackage{xurl}   % let long URLs break at the margin
+\setlength{\emergencystretch}{2.5em}  % unbreakable gene-pair chains must not cross the margin
 
-\newcommand{\to}{$\rightarrow$}
+\renewcommand{\to}{\ensuremath{\rightarrow}\allowbreak}
 \renewcommand{\thetable}{S\arabic{table}}
 
 \title{\vspace{-2.0em}Supplementary Material\\[4pt]
@@ -26,7 +30,7 @@
 \noindent This document contains supporting analyses, full implementation details, and
 per-configuration results that accompany the main text. Section~S3 provides the
 edge-stratification table requested in review; Section~S5 reports per-seed
-genome-scale results. References to sections (S1--S11) and tables (S1--S12) refer to
+genome-scale results. References to sections (S1--S12) and tables (S1--S14) refer to
 this document unless stated otherwise.
 
 \section*{S1. Biological universality of causal programs}
@@ -92,7 +96,7 @@ edges than scratch ($842\pm10$ vs.\ $703\pm9$).
 the power law $r(d)\propto d^{0.47}$ established at $d\le889$ cannot be extrapolated
 indefinitely; the measured $d=5{,}000$ warm retention ($81.8\pm0.4\%$) is accordingly below
 a naive extrapolation, while the absolute advantage over scratch ($+36.4$ percentage
-points, versus $+34.1$~pp at $d=889$) remains substantial and consistent with the trend of
+points, versus $+34.0$~pp at $d=889$, the value in Table~2) remains substantial and consistent with the trend of
 growing transfer benefit with dimension.
 
 \paragraph{Extrapolation beyond $d=5{,}000$.} Extrapolating the cubic time scaling from
@@ -126,7 +130,7 @@ bias becomes proportionally more valuable.
 
 \paragraph{Pathway mapping of the seven transferred DepMap edges.} The DepMap$\to$BRCA
 transfer retains seven edges at $\tau=0.3$ (35\% of the 20 source edges; full list in
-\texttt{results/depmap\_edges\_d454.json}). Their gene annotations map to calcium
+\texttt{results/\allowbreak depmap\_edges\_d454.json}). Their gene annotations map to calcium
 homeostasis (S100P$\to$PPP1R14C), epithelial differentiation (POF1B$\to$KRT16), cell
 adhesion and metastasis (SLC44A4$\to$TSPAN8$\to$PCSK9), Notch signaling and
 antioxidant defence (HES2$\to$GPX2), protein processing (PCSK9$\to$SERPINB5) and
@@ -300,7 +304,9 @@ UCSC Xena browser (\url{https://xenabrowser.net/}), DepMap
 (\url{https://www.grnpedia.org/trrust/}). Source code and pre-computed causal graphs are
 available at \url{https://github.com/sgao-academics/causal-transfer-discovery}.
 The main-text analyses are reproduced by \texttt{scripts/run\_all.py}; the genome-scale
-extension by \texttt{scripts/run\_d5000\_multiseed.py}.
+extension by \texttt{scripts/run\_d5000\_multiseed.py}; the multi-organ extension of
+Section~S12 by \texttt{scripts/experiments/run\_multi\_target.py} ($d=454$) and
+\texttt{scripts/run\_d5000\_multitarget.py} ($d=5{,}000$).
 
 \section*{S7. Sensitivity to the edge threshold}
 
@@ -504,6 +510,109 @@ Seed & Scratch & Warm & $\Delta$ & Scratch & Warm & $\Delta$\\
 \end{table}
 
 \noindent At $d=454$ warm-start exceeds scratch in 10 of 10 seeds (exact sign test $p=2^{-10}=9.8\times10^{-4}$); at $d=889$, in 10 of 10. Retention rises with dimension for both arms, reproducing the scaling behaviour of the main text on independent draws.
+
+\section*{S12. Dependence on the target organ}
+
+Every transfer result in the main text uses BRCA as the target, because it is the
+largest cohort and the one the benchmark was built around. That leaves open the
+possibility that the advantage is a property of breast cancer rather than of causal
+transfer. This section repeats the core comparison with five further TCGA cohorts in
+the target role.
+
+\noindent\textbf{Design.} The protocol is leave-one-organ-out. For target organ $O$ the
+source graph is learned from every other cohort in the panel---BRCA included when
+$O \neq \mathrm{BRCA}$---so no sample of $O$ enters the prior, and the zero-overlap
+requirement of Section~3.3 is met by every target rather than only by BRCA. Reusing the
+archived non-BRCA source graph for all five further targets would have saved roughly
+$2.5$~h per organ, but it would have placed the target's own samples in its prior; that
+shortcut was not taken. The gene panel is held fixed across organs (the same 454 genes,
+in the same column order, as the main benchmark), because a per-organ panel would make
+every column index denote a different gene and destroy comparability of retention.
+Normalisation, optimiser settings, edge threshold ($\tau=0.3$) and seeds follow
+Table~2 exactly: cohort matrices are stacked and $z$-scored as one matrix, and the
+target is $z$-scored on its own.
+
+\noindent Retention rises over the scratch baseline in all $18$ organ--seed cells
+(Table~S13); $\Delta$ spans $+16.7$ to $+30.2$~pp with a mean of $+22.5$~pp (exact sign
+test $p=2^{-18}=3.8\times10^{-6}$). The BRCA gain measured here, $+23.2$~pp, agrees with
+the $+21.7$~pp of Table~2.
+
+\setcounter{table}{12}
+\begin{table}[H]
+\caption{Retention at $d=454$ with each cohort in the target role. Each target receives
+its own source graph, learned from all remaining cohorts (leave-one-organ-out). Mean
+$\pm$ sample SD over three seeds; $\Delta$ is warm minus scratch, taken per seed and
+then averaged, so the range column shows the three individual gains rather than the
+spread of the means.}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Organ & $n$ & Scratch (\%) & Warm (\%) & Mean $\Delta$ (pp) & $\Delta$ range (pp)\\
+\midrule
+BRCA  & 1218 & $37.2\pm6.2$ & $60.4\pm4.9$ & $+23.2$ & $+21.9$ to $+24.7$ \\
+KIRC  & 606 & $40.5\pm1.0$ & $57.7\pm1.7$ & $+17.2$ & $+16.7$ to $+18.1$ \\
+LUAD  & 576 & $43.6\pm2.0$ & $64.6\pm3.8$ & $+21.0$ & $+18.0$ to $+23.3$ \\
+THCA  & 572 & $35.0\pm3.3$ & $60.3\pm1.7$ & $+25.3$ & $+24.1$ to $+27.2$ \\
+LUSC  & 553 & $43.2\pm3.0$ & $70.9\pm1.5$ & $+27.8$ & $+25.7$ to $+30.2$ \\
+LIHC  & 423 & $35.4\pm4.1$ & $55.8\pm1.5$ & $+20.3$ & $+17.9$ to $+24.0$ \\
+\bottomrule
+\end{tabular}
+\label{tab:S13}
+\end{table}
+
+
+
+\smallskip\noindent\textbf{Why the BRCA row does not coincide with Table~2.} The scratch
+and warm columns above sit $4$--$5$~pp away from the Table~2 values ($33.4$ and
+$55.1$), which needs an explanation rather than a footnote. Re-running the two arms on
+the \emph{archived} source graphs, instead of re-learning them, reproduces the warm
+column exactly: $56.8$, $53.4$ and $55.1\%$ for seeds 42, 123 and 456, mean $55.1\%$,
+identical to Table~2 to the tenth of a percentage point. The scratch arm lands one to
+three edges away ($31.1$, $39.7$, $30.8\%$), because it starts from a random
+initialisation drawn at a different position in the RNG stream. The implementation is
+unchanged; only the draw that fixes the source graph differs.
+
+The consequence is a measurement rather than a caveat. At $d=454$ the retention
+\emph{level} carries a source-graph-draw component of roughly $\pm5$~pp, whereas
+$\Delta$ is stable to within about $3$~pp; the same component is visible in Table~S12,
+where the seven later seeds scatter appreciably more than the first three. At
+$d=5{,}000$ it effectively vanishes ($81.8\pm0.4\%$ over three seeds), because at that
+dimension the source graph is data-dominated rather than initialisation-dominated. We
+therefore treat $\Delta$ as the organ-comparison quantity at $d=454$ and do not rank
+organs by level or by gain: an ordering of six organs separated by $1$--$10$~pp is not
+resolvable at this noise level.
+
+\smallskip\noindent\textbf{Five further organs at $d=5{,}000$.} The genome-adjacent
+experiment of Section~5.4 was repeated with five of these cohorts in the target role,
+one seed each and the same leave-one-organ-out source construction.
+
+\setcounter{table}{13}
+\begin{table}[H]
+\caption{Retention at $d=5{,}000$ with five further cohorts in the target role (seed
+42). The BRCA row is the archived three-seed result of Section~5.4 and is shown for
+reference; the five new rows are single-seed exploratory runs. Every arm reached
+$h=0$ on its own between outer iterations 9 and 12.}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Organ & $n$ & Source edges & Scratch (\%) & Warm (\%) & $\Delta$ (pp)\\
+\midrule
+BRCA & 1218 & 624 & $45.4\pm2.9$ & $81.8\pm0.4$ & $+36.4$ \\
+KIRC & 606 & 644 & $28.6$ & $61.0$ & $+32.5$ \\
+LUAD & 576 & 632 & $34.8$ & $77.7$ & $+42.9$ \\
+THCA & 572 & 626 & $19.6$ & $57.7$ & $+38.0$ \\
+LUSC & 553 & 640 & $29.8$ & $78.3$ & $+48.4$ \\
+LIHC & 423 & 639 & $21.3$ & $59.5$ & $+38.2$ \\
+\bottomrule
+\end{tabular}
+\label{tab:S14}
+\end{table}
+
+\noindent All five are positive, $\Delta$ between $+32.5$ and $+48.4$~pp, and no run was
+truncated: every arm reached $h=0$ between outer iterations $9$ and $12$, so the
+20-iteration cap of Section~S2 was never binding in any configuration reported here.
+The spread across organs ($57.7$ to $78.3\%$ warm retention) lies far outside the
+$0.4$~pp seed noise measured on BRCA, which suggests it reflects the tissue rather than
+the draw; a single seed per organ cannot establish that, and these rows are therefore
+reported as an exploratory extension rather than pooled with the three-seed BRCA row.
 
 \bibliographystyle{plain}
 \bibliography{refs}

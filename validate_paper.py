@@ -213,6 +213,46 @@ def main():
     if not ok:
         errors.append("ten-seed sweep: %d/%d" % (wins, tot))
 
+    # ---- Stage: multi-organ extension (Supplementary Section S12) -----------
+    print()
+    print("=" * 78)
+    print("Stage: multi-organ extension (Supplementary Section S12)")
+    print("=" * 78)
+    mt = json.load(open(os.path.join(BASE, "results", "multi_target_d454.json"),
+                        encoding="utf-8"))
+    ORGANS = ["BRCA", "KIRC", "LUAD", "THCA", "LUSC", "LIHC"]
+    S13 = {"BRCA": 23.2, "KIRC": 17.2, "LUAD": 21.0,
+           "THCA": 25.3, "LUSC": 27.8, "LIHC": 20.3}      # Table S13, mean gain
+    positive = cells = 0
+    for org in ORGANS:
+        gains = [mt["%s_s%d" % (org, s)]["gain_pp"] for s in SEEDS]
+        cells += len(gains)
+        positive += sum(1 for g in gains if g > 0)
+        cmp("S13 %s mean gain" % org, sum(gains) / len(gains), S13[org])
+    checks += 1
+    ok = positive == cells == 18
+    print("  %-42s %d/%d %s" % ("cells with positive gain", positive, cells,
+                                "[OK]" if ok else "[FAIL]"))
+    if not ok:
+        errors.append("multi-organ d=454: %d/%d positive" % (positive, cells))
+
+    # Table S14: single-seed high-dimensional rows
+    S14 = {"KIRC": (644, 28.6, 61.0, 32.5),
+           "LUAD": (632, 34.8, 77.7, 42.9),
+           "THCA": (626, 19.6, 57.7, 38.0),
+           "LUSC": (640, 29.8, 78.3, 48.4),
+           "LIHC": (639, 21.3, 59.5, 38.2)}
+    for org, (src, scr, warm, gain) in S14.items():
+        p = os.path.join(BASE, "results", "d5000_multi", "%s_s42" % org, "result.json")
+        if not os.path.exists(p):
+            errors.append("Table S14 row missing: %s" % org)
+            continue
+        j = json.load(open(p, encoding="utf-8"))
+        cmp("S14 %s source edges" % org, j["source_edges"], src)
+        cmp("S14 %s scratch" % org, j["scratch_retention_pct"], scr)
+        cmp("S14 %s warm" % org, j["warm_retention_pct"], warm)
+        cmp("S14 %s gain" % org, j["gain_pp"], gain)
+
     print()
     print("=" * 78)
     if errors:
